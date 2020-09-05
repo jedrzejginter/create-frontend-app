@@ -1,0 +1,21 @@
+{
+  "name": "create-frontend-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:jedrzejginter/create-frontend-app.git",
+  "author": "Jedrzej Ginter <dzeejj@gmail.com> (https://github.com/jedrzejginter)",
+  "license": "MIT",
+  "scripts": {
+    "create-project": "sh -e ./create.sh",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@babel/parser": "7.11.5",
+    "@babel/types": "7.11.5",
+    "copy-dir": "1.3.0",
+    "fs-extra": "9.0.1",
+    "handlebars": "4.7.6",
+    "jest": "26.4.2",
+    "recast": "0.20.3"
+  }
+}
