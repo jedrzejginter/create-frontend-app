@@ -1,0 +1,63 @@
+name: CD
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  create-project:
+    runs-on: ubuntu-latest
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.4
+
+      - name: Get yarn cache dir
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Restore yarn global cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Restore node_modules cache for repo
+        uses: actions/cache@v1
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-root-node-modules-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-root-node-modules-
+
+      - name: Restore node_modules cache for src project
+        uses: actions/cache@v1
+        with:
+          path: ./src/node_modules
+          key: ${{ runner.os }}-src-node-modules-${{ hashFiles('src/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-src-node-modules-
+
+      - run: yarn --pure-lockfile
+      - run: yarn create-project
+
+      - run: cd out
+      - run: rm -f .env
+      - name: Make env file
+        run: |
+          cat > .env << EOF
+          API_URL=http://localhost:3001
+          EOF
+
+      - run: heroku login
+      - run: docker build --tag registry.heroku.com/create-frontend-app/web .
+      - run: docker push registry.heroku.com/create-frontend-app/web
+      - run: heroku container:release web --app create-frontend-app
+
