@@ -56,7 +56,7 @@ jobs:
           API_URL=http://localhost:3001
           EOF
 
-      - run: heroku login
+      - run: heroku container:login
       - run: docker build --tag registry.heroku.com/create-frontend-app/web .
       - run: docker push registry.heroku.com/create-frontend-app/web
       - run: heroku container:release web --app create-frontend-app
