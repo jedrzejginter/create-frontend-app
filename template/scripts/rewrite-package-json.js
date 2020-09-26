@@ -1,12 +1,4 @@
-const isDocker = require("is-docker");
-const isCI = require("is-ci");
 const fs = require("fs");
-
-// Prevent overwriting package.json locally.
-if (!isDocker() && !isCI) {
-  process.stderr.write('This script can be run only in CI or Docker.\n')
-  process.exit(1);
-}
 
 function filterDependencies(oldDependencies, shouldBeRemoved) {
   const newDependencies = {};
