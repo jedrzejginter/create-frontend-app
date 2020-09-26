@@ -23,6 +23,8 @@ function targetPath(...segments) {
   fs.copyFileSync(templatePath('tsconfig.json'), targetPath('tsconfig.json'));
   fs.copyFileSync(templatePath('tsconfig.eslint.json'), targetPath('tsconfig.eslint.json'));
   cpDir.sync(templatePath('src'), targetPath('src'), {});
+  cpDir.sync(templatePath('pages'), targetPath('pages'), {});
+  cpDir.sync(templatePath('scripts'), targetPath('scripts'), {});
 
   const pkgJson = require("./template/package.json");
   pkgJson.name = config.PROJECT_NAME;
