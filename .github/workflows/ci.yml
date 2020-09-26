@@ -55,4 +55,5 @@ jobs:
       - run: yarn create-project
 
       # Smoke test if script is not failing.
-      - run: (cd template && node scripts/rewrite-package-json.js)
+      # It doesn't matter if we run it in template or out dir.
+      - run: (cd out && node scripts/rewrite-package-json.js)

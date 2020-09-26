@@ -17,6 +17,7 @@ function targetPath(...segments) {
   fs.mkdirSync(targetPath(), { recursive: true });
 
   fs.copyFileSync(templatePath('.gitignore'), targetPath('.gitignore'));
+  fs.copyFileSync(templatePath('.env.example'), targetPath('.env.example'));
   fs.copyFileSync(templatePath('.nvmrc'), targetPath('.nvmrc'));
   fs.copyFileSync(templatePath('babel.config.js'), targetPath('babel.config.js'));
   fs.copyFileSync(templatePath('eslint.config.js'), targetPath('eslint.config.js'));
@@ -25,6 +26,9 @@ function targetPath(...segments) {
   cpDir.sync(templatePath('src'), targetPath('src'), {});
   cpDir.sync(templatePath('pages'), targetPath('pages'), {});
   cpDir.sync(templatePath('scripts'), targetPath('scripts'), {});
+  cpDir.sync(templatePath('typings'), targetPath('typings'), {});
+
+  fs.unlinkSync(targetPath('typings/build.d.ts'))
 
   const pkgJson = require("./template/package.json");
   pkgJson.name = config.PROJECT_NAME;
