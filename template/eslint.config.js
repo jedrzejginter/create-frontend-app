@@ -43,6 +43,14 @@ module.exports = {
         "jsx-a11y/control-has-associated-label": OFF,
       },
     },
+    {
+      files: ["scripts/*.js"],
+      rules: {
+        "import/no-extraneous-dependencies": [ERROR, {
+          devDependencies: ['scripts/*.js']
+        }]
+      }
+    }
   ],
   rules: {
     "@typescript-eslint/camelcase": OFF,

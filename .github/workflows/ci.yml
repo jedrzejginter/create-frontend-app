@@ -53,3 +53,6 @@ jobs:
 
       - run: yarn --pure-lockfile
       - run: yarn create-project
+
+      # Smoke test if script is not failing.
+      - run: (cd template && node scripts/rewrite-package-json.js)
