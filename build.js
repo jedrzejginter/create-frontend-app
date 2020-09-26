@@ -5,7 +5,7 @@ const hbs = require('handlebars');
 const config = require('./config');
 
 function __in(...segments) {
-  return path.join(__dirname, 'src', ...segments)
+  return path.join(__dirname, 'template', ...segments)
 }
 
 function __out(...segments) {
@@ -36,7 +36,7 @@ function __out(...segments) {
   cpDir.sync(__in('src'), __out('src'), {});
   renderFile(__in('pages/index.ts'), __out('pages/index.ts'));
 
-  const pkgJson = require("./src/package.json");
+  const pkgJson = require("./template/package.json");
   pkgJson.name = data.projectName;
 
   fs.writeFileSync(__out('package.json'), JSON.stringify(pkgJson, null, 2), 'utf-8')

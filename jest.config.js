@@ -1,3 +1,3 @@
 module.exports = {
-  modulePathIgnorePatterns: ['<rootDir>/src']
+  modulePathIgnorePatterns: ['<rootDir>/template']
 }

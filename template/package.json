@@ -4,15 +4,15 @@
   "repository": "git@github.com:jedrzejginter/create-frontend-app.git",
   "author": "Jedrzej Ginter <dzeejj@gmail.com> (https://github.com/jedrzejginter)",
   "license": "MIT",
-  "scripts": {
-    "dev": "NODE_ENV=development next -p ${PORT:-3000}",
-    "lint": "eslint . --ext ts,tsx,js,jsx --config eslint.config.js",
-    "start": "NODE_ENV=production next start -p ${PORT:-5000}",
-    "test": "jest",
-    "typecheck": "tsc --noEmit"
-  },
   "engines": {
     "node": "12"
+  },
+  "scripts": {
+    "dev": "next -p ${PORT:-3000}",
+    "lint": "eslint . --ext ts,tsx,js,jsx --config eslint.config.js",
+    "start": "NODE_ENV=production next start -p ${PORT:-3000}",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "axios": "0.20.0",
@@ -23,36 +23,36 @@
     "nookies": "2.4.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "tailwindcss": "1.7.6",
-    "typescript": "4.0.2"
+    "tailwindcss": "1.8.10",
+    "typescript": "4.0.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.11.4",
-    "@testing-library/react": "11.0.2",
-    "@types/jest": "26.0.13",
-    "@types/node": "14.6.4",
+    "@testing-library/react": "11.0.4",
+    "@types/jest": "26.0.14",
+    "@types/node": "14.11.2",
     "@types/react": "16.9.49",
     "@types/react-dom": "16.9.8",
     "@types/uuid": "8.3.0",
-    "@typescript-eslint/eslint-plugin": "4.0.1",
-    "@typescript-eslint/parser": "4.0.1",
+    "@typescript-eslint/eslint-plugin": "4.2.0",
+    "@typescript-eslint/parser": "4.2.0",
     "babel-plugin-inline-react-svg": "1.1.1",
     "babel-plugin-jsx-remove-data-test-id": "2.1.3",
-    "eslint": "7.8.1",
+    "eslint": "7.9.0",
     "eslint-config-airbnb": "18.2.0",
-    "eslint-config-airbnb-typescript": "9.0.0",
-    "eslint-config-prettier": "6.11.0",
+    "eslint-config-airbnb-typescript": "10.0.0",
+    "eslint-config-prettier": "6.12.0",
     "eslint-import-resolver-alias": "1.1.2",
     "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-jest": "23.20.0",
+    "eslint-plugin-jest": "24.0.2",
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-prettier": "3.1.4",
-    "eslint-plugin-react": "7.20.6",
-    "eslint-plugin-react-hooks": "4.1.0",
-    "husky": "4.2.5",
+    "eslint-plugin-react": "7.21.2",
+    "eslint-plugin-react-hooks": "4.1.2",
+    "husky": "4.3.0",
     "jest": "26.4.2",
-    "lint-staged": "10.3.0",
-    "prettier": "2.1.1"
+    "lint-staged": "10.4.0",
+    "prettier": "2.1.2"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "yarn lint --fix"
