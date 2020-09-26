@@ -13,20 +13,36 @@ function targetPath(...segments) {
   return path.join(__dirname, 'out', ...segments)
 }
 
+function mirrorFile(fileName) {
+  fs.copyFileSync(templatePath(fileName), targetPath(fileName));
+}
+
+function mirrorDir(dirName) {
+  cpDir.sync(templatePath(dirName), targetPath(dirName), {});
+}
+
 (() => {
   fs.mkdirSync(targetPath(), { recursive: true });
 
-  fs.copyFileSync(templatePath('.gitignore'), targetPath('.gitignore'));
-  fs.copyFileSync(templatePath('.env.example'), targetPath('.env.example'));
-  fs.copyFileSync(templatePath('.nvmrc'), targetPath('.nvmrc'));
-  fs.copyFileSync(templatePath('babel.config.js'), targetPath('babel.config.js'));
-  fs.copyFileSync(templatePath('eslint.config.js'), targetPath('eslint.config.js'));
-  fs.copyFileSync(templatePath('tsconfig.json'), targetPath('tsconfig.json'));
-  fs.copyFileSync(templatePath('tsconfig.eslint.json'), targetPath('tsconfig.eslint.json'));
-  cpDir.sync(templatePath('src'), targetPath('src'), {});
-  cpDir.sync(templatePath('pages'), targetPath('pages'), {});
-  cpDir.sync(templatePath('scripts'), targetPath('scripts'), {});
-  cpDir.sync(templatePath('typings'), targetPath('typings'), {});
+  mirrorFile('.gitignore');
+  mirrorFile('.env.example');
+  mirrorFile('.nvmrc');
+  mirrorFile('babel.config.js');
+  mirrorFile('eslint.config.js');
+  mirrorFile('.dockerignore');
+  mirrorFile('Dockerfile');
+  mirrorFile('README.md');
+  mirrorFile('next-env.d.ts');
+  mirrorFile('next.config.js');
+  mirrorFile('tsconfig.json');
+  mirrorFile('tsconfig.eslint.json');
+
+  mirrorDir('babel');
+  mirrorDir('pages');
+  mirrorDir('public');
+  mirrorDir('scripts');
+  mirrorDir('src');
+  mirrorDir('typings');
 
   fs.unlinkSync(targetPath('typings/build.d.ts'))
 

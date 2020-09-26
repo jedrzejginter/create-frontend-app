@@ -1,0 +1,13 @@
+.env.example
+.gitignore
+.nvmrc
+eslint.config.js
+next-env.d.ts
+*.md
+tsconfig.eslint.json
+
+# Only for local development
+.next
+node_modules
+
+!.env

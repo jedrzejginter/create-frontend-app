@@ -16,13 +16,11 @@ const allDependencies = {
 
 const unlockedDependencies = [];
 
-for (const dependency in allDependencies) {
-  const version = allDependencies[dependency];
-
+Object.entries(allDependencies).forEach(([dependency, version]) => {
   if (/^[<>^~]/.test(version) || version === "*") {
     unlockedDependencies.push([dependency, version]);
   }
-}
+})
 
 if (unlockedDependencies.length > 0) {
   process.stderr.write(

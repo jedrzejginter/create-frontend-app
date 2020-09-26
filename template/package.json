@@ -1,6 +1,6 @@
 {
   "name": "project",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "repository": "git@github.com:jedrzejginter/create-frontend-app.git",
   "author": "Jedrzej Ginter <dzeejj@gmail.com> (https://github.com/jedrzejginter)",
   "license": "MIT",
@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "next -p ${PORT:-3000}",
     "lint": "eslint . --ext ts,tsx,js,jsx --config eslint.config.js",
+    "lint-package-json": "node scripts/lint-package-json.js",
     "start": "NODE_ENV=production next start -p ${PORT:-3000}",
     "test": "jest",
     "typecheck": "tsc --noEmit"
@@ -57,7 +58,7 @@
     "prettier": "2.1.2"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": "yarn lint --fix"
+    "*.{ts,tsx,js,jsx}": "yarn lint-package-json && yarn lint --fix"
   },
   "husky": {
     "hooks": {

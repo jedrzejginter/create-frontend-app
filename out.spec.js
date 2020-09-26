@@ -1,5 +1,13 @@
+const fs = require('fs');
+
 const pkgJson = require('./out/package.json')
 const config = require('./config');
+
+describe('.gitignore', () => {
+  it('should not ignore typings directory', () => {
+    expect(fs.readFileSync('out/.gitignore', 'utf-8')).toEqual(expect.not.stringMatching(/^typings/mi))
+  })
+})
 
 describe('package.json', () => {
   it('should have project name set', () => {
