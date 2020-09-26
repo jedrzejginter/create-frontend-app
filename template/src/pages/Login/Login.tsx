@@ -10,8 +10,14 @@ export default function Login() {
   });
 
   return <form onSubmit={handleSubmit}>
-    <input type="text" name="email" onChange={handleChange} value={values.email} />
-    <input type="password" name="password" onChange={handleChange} value={values.password} />
+    <div>
+      <label htmlFor="email">E-mail address</label>
+      <input type="text" id="email" name="email" onChange={handleChange} value={values.email} />
+    </div>
+    <div>
+      <label htmlFor="password">Password</label>
+      <input type="password" id="password" name="password" onChange={handleChange} value={values.password} />
+    </div>
     <button type="submit">Log in</button>
   </form>;
 }
