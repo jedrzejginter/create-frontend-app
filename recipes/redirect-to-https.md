@@ -40,3 +40,4 @@ app.prepare().then(() => {
   });
 });
 ```
+3. Change `yarn start` script to `NODE_ENV=production node server.js`

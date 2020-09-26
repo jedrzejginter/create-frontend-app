@@ -2,42 +2,30 @@ const fs = require('fs');
 const cpDir = require('copy-dir');
 const path = require('path');
 const hbs = require('handlebars');
+
 const config = require('./config');
 
-function __in(...segments) {
+function templatePath(...segments) {
   return path.join(__dirname, 'template', ...segments)
 }
 
-function __out(...segments) {
+function targetPath(...segments) {
   return path.join(__dirname, 'out', ...segments)
 }
 
 (() => {
-  fs.mkdirSync(__out(), { recursive: true });
+  fs.mkdirSync(targetPath(), { recursive: true });
 
-  const data = {
-    projectName: config.PROJECT_NAME,
-    hasEmotion: false,
-  }
-
-  function renderFile(fp, dp) {
-    const t = fs.readFileSync(fp, 'utf-8')
-    const res = hbs.compile(t)(data)
-    fs.mkdirSync(path.dirname(dp), { recursive: true })
-    fs.writeFileSync(dp, res, 'utf-8');
-  }
-
-  fs.copyFileSync(__in('.gitignore'), __out('.gitignore'));
-  fs.copyFileSync(__in('.nvmrc'), __out('.nvmrc'));
-  fs.copyFileSync(__in('babel.config.js'), __out('babel.config.js'));
-  fs.copyFileSync(__in('eslint.config.js'), __out('eslint.config.js'));
-  fs.copyFileSync(__in('tsconfig.json'), __out('tsconfig.json'));
-  fs.copyFileSync(__in('tsconfig.eslint.json'), __out('tsconfig.eslint.json'));
-  cpDir.sync(__in('src'), __out('src'), {});
-  renderFile(__in('pages/index.ts'), __out('pages/index.ts'));
+  fs.copyFileSync(templatePath('.gitignore'), targetPath('.gitignore'));
+  fs.copyFileSync(templatePath('.nvmrc'), targetPath('.nvmrc'));
+  fs.copyFileSync(templatePath('babel.config.js'), targetPath('babel.config.js'));
+  fs.copyFileSync(templatePath('eslint.config.js'), targetPath('eslint.config.js'));
+  fs.copyFileSync(templatePath('tsconfig.json'), targetPath('tsconfig.json'));
+  fs.copyFileSync(templatePath('tsconfig.eslint.json'), targetPath('tsconfig.eslint.json'));
+  cpDir.sync(templatePath('src'), targetPath('src'), {});
 
   const pkgJson = require("./template/package.json");
-  pkgJson.name = data.projectName;
+  pkgJson.name = config.PROJECT_NAME;
 
-  fs.writeFileSync(__out('package.json'), JSON.stringify(pkgJson, null, 2), 'utf-8')
+  fs.writeFileSync(targetPath('package.json'), JSON.stringify(pkgJson, null, 2), 'utf-8')
 })()
