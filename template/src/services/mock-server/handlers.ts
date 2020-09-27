@@ -27,7 +27,9 @@ export const handlers = [
     );
   }),
   rest.delete(withAPIUrl("/auth/me"), (_, res, ctx) => {
-    return res(ctx.status(200));
+    return res(
+      ctx.delay(300),
+      ctx.status(200));
   }),
   rest.post<{ email: string; password: string }>(withAPIUrl("/auth/login"), (req, res, ctx) => {
     if (user.email === req.body.email && req.body.password === "P@ssw0rd!") {
@@ -42,13 +44,19 @@ export const handlers = [
     }
 
     return res(
-      ctx.delay(1500),
+      ctx.delay(1000),
       ctx.status(401),
       ctx.json({
         errors: {
           general: "Invalid e-mail or password.",
         },
       }),
+    );
+  }),
+  rest.post(withAPIUrl("/auth/forgot-password"), (_, res, ctx) => {
+    return res(
+      ctx.delay(1000),
+      ctx.status(200),
     );
   }),
 ];

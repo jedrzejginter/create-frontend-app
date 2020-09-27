@@ -20,3 +20,7 @@ export async function logIn(body: {
 export function logOut() {
   return api.delete("/auth/me");
 }
+
+export async function forgotPassword(body: { email: string }) {
+  return await api.post("/auth/forgot-password", body);
+}
