@@ -79,4 +79,26 @@ export const handlers = [
       ctx.status(200),
     );
   }),
+  rest.post<{ email: string, password: string }>(withAPIUrl("/auth/register"), (req, res, ctx) => {
+    const user = users.find(({ email }) => {
+      return email === req.body.email
+    });
+
+    if (user) {
+      return res(
+        ctx.delay(1000),
+        ctx.status(400),
+        ctx.json({
+          errors: {
+            general: "This e-mail address is already used."
+          }
+        })
+      )
+    }
+
+    return res(
+      ctx.delay(1000),
+      ctx.status(201),
+    );
+  }),
 ];
