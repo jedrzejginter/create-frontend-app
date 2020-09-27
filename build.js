@@ -47,12 +47,9 @@ function mirrorDir(dirName) {
 
   const pkgJson = require("./template/package.json");
   pkgJson.name = config.PROJECT_NAME;
-  pkgJson = {
-    ...pkgJson,
-    husky: {
-      hooks: {
-        "pre-commit": "lint-staged"
-      }
+  pkgJson.husky = {
+    hooks: {
+      "pre-commit": "lint-staged"
     }
   }
 
