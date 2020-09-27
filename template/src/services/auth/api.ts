@@ -32,3 +32,7 @@ export function resetPassword(body: { token: string; password: string }) {
 export function register(body: { email: string; password: string }) {
   return api.post("/auth/register", body);
 }
+
+export function activateAccount(body: { token: string }) {
+  return api.post("/auth/register/activate", body);
+}

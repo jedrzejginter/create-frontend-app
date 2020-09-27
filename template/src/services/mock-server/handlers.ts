@@ -123,4 +123,19 @@ export const handlers = [
 
     return res(ctx.delay(1000), ctx.status(201));
   }),
+  rest.post<{ token: string }>(withAPIUrl("/auth/register/activate"), (req, res, ctx) => {
+    if (!req.body.token) {
+      return res(
+        ctx.delay(500),
+        ctx.status(401),
+        ctx.json({
+          errors: {
+            general: "Reset token is missing.",
+          },
+        }),
+      );
+    }
+
+    return res(ctx.delay(1000), ctx.status(200));
+  }),
 ];
