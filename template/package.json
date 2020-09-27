@@ -21,6 +21,7 @@
     "email-validator": "2.0.4",
     "envalid": "6.0.2",
     "formik": "2.1.5",
+    "msw": "0.21.2",
     "next": "9.5.3",
     "nookies": "2.4.0",
     "react": "16.13.1",

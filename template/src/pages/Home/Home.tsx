@@ -1,11 +1,15 @@
-import Link from 'next/link';
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Home() {
-  return <div>
-    <Link href="/login">
-      <a>
-        Log in
-      </a>
-    </Link>
-  </div>;
+  return (
+    <>
+      <Head>
+        <title>Welcome!</title>
+      </Head>
+      <Link href="/login" passHref>
+        <a>Log in</a>
+      </Link>
+    </>
+  );
 }

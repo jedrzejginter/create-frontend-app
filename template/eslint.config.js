@@ -15,6 +15,7 @@ module.exports = {
   extends: [
     "airbnb-typescript",
     "prettier",
+    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "prettier/react",
     "prettier/@typescript-eslint",
@@ -24,6 +25,9 @@ module.exports = {
     browser: true,
     node: true,
     jest: true,
+  },
+  globals: {
+    JSX: "readonly",
   },
   settings: {
     react: {
@@ -46,11 +50,14 @@ module.exports = {
     {
       files: ["scripts/*.js"],
       rules: {
-        "import/no-extraneous-dependencies": [ERROR, {
-          devDependencies: ['scripts/*.js']
-        }]
-      }
-    }
+        "import/no-extraneous-dependencies": [
+          ERROR,
+          {
+            devDependencies: ["scripts/*.js"],
+          },
+        ],
+      },
+    },
   ],
   rules: {
     "@typescript-eslint/camelcase": OFF,

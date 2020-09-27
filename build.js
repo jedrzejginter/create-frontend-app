@@ -44,8 +44,6 @@ function mirrorDir(dirName) {
   mirrorDir('src');
   mirrorDir('typings');
 
-  fs.unlinkSync(targetPath('typings/build.d.ts'))
-
   const pkgJson = require("./template/package.json");
   pkgJson.name = config.PROJECT_NAME;
 
