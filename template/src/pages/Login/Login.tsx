@@ -2,17 +2,16 @@ import emailValidator from "email-validator";
 import { FormikErrors, useFormik } from "formik";
 import Head from "next/head";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import FormError from "@/components/FormError";
+import Spinner from "@/components/Spinner";
+import { useSession } from "@/containers/Session";
 import { getErrorMessage } from "@/services/api";
 import { logIn, saveAuthToken } from "@/services/auth";
 
 import type { FormValues } from "./types";
-import Spinner from "@/components/Spinner";
-import useMountRef from "@/hooks/useMountRef";
-import { useRouter } from "next/router";
-import { useSession } from "@/containers/Session";
 
 function validate(values: FormValues): FormikErrors<FormValues> {
   const errors: FormikErrors<FormValues> = {};
@@ -33,42 +32,51 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { createSession } = useSession();
-  const isComponentMount = useMountRef();
+  const isComponentMount = useRef<boolean>(true);
 
-  const onSubmit = useCallback(async (values: FormValues) => {
-    setError(null);
-    setLoading(true);
+  useEffect(() => {
+    return () => {
+      isComponentMount.current = false;
+    };
+  }, []);
 
-    try {
-      const { user, token } = await logIn(values);
+  const onSubmit = useCallback(
+    async (values: FormValues) => {
+      setError(null);
+      setLoading(true);
 
-      saveAuthToken(token);
-      createSession(token, user);
-      router.push('/dashboard');
+      try {
+        const { user, token } = await logIn(values);
 
-      // We can exit immediately, because the redirect will happen,
-      // so we don't care about UI updates.
-      return;
-    } catch (err: unknown) {
-      const errorMessage = getErrorMessage(err, 'Something went wrong!');
+        saveAuthToken(token);
+        createSession(token, user);
+        router.push("/dashboard");
+
+        // We can exit immediately, because the redirect will happen,
+        // so we don't care about UI updates.
+        return;
+      } catch (err: unknown) {
+        const errorMessage = getErrorMessage(err, "Something went wrong!");
+
+        if (isComponentMount.current) {
+          setError(errorMessage);
+        }
+      }
 
       if (isComponentMount.current) {
-        setError(errorMessage);
+        setLoading(false);
       }
-    }
-
-    if (isComponentMount.current) {
-      setLoading(false)
-    }
-  }, [router, createSession]);
+    },
+    [router, createSession],
+  );
 
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = useFormik<FormValues>(
     {
       onSubmit,
       validate,
       initialValues: {
-        email: process.env.DEFAULT_USER_EMAIL ?? '',
-        password: process.env.DEFAULT_USER_PASSWORD ?? '',
+        email: process.env.DEFAULT_USER_EMAIL ?? "",
+        password: process.env.DEFAULT_USER_PASSWORD ?? "",
       },
     },
   );
@@ -109,7 +117,9 @@ export default function Login() {
           {touched.password && errors.password && <FormError>{errors.password}</FormError>}
         </div>
         {isLoading && <Spinner size={16} />}
-        <button disabled={isLoading} type="submit">Log in</button>
+        <button disabled={isLoading} type="submit">
+          Log in
+        </button>
       </form>
       <Link href="/forgot-password" passHref>
         <a>Forgot password?</a>

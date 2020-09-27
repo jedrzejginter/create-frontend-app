@@ -1,4 +1,4 @@
-import SessionProvider, {useSession} from "./Session"
+import SessionProvider, { useSession } from "./Session";
 
-export default SessionProvider
-export {useSession}
+export default SessionProvider;
+export { useSession };

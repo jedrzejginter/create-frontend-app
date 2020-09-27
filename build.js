@@ -1,7 +1,6 @@
 const fs = require('fs');
 const cpDir = require('copy-dir');
 const path = require('path');
-const hbs = require('handlebars');
 
 const config = require('./config');
 
@@ -24,18 +23,20 @@ function mirrorDir(dirName) {
 (() => {
   fs.mkdirSync(targetPath(), { recursive: true });
 
-  mirrorFile('.gitignore');
+  mirrorFile('.dockerignore');
   mirrorFile('.env.example');
+  mirrorFile('.eslintignore');
+  mirrorFile('.gitignore');
   mirrorFile('.nvmrc');
   mirrorFile('babel.config.js');
-  mirrorFile('eslint.config.js');
-  mirrorFile('.dockerignore');
   mirrorFile('Dockerfile');
-  mirrorFile('README.md');
+  mirrorFile('eslint.config.js');
   mirrorFile('next-env.d.ts');
   mirrorFile('next.config.js');
-  mirrorFile('tsconfig.json');
+  mirrorFile('README.md');
   mirrorFile('tsconfig.eslint.json');
+  mirrorFile('tsconfig.json');
+  mirrorFile('yarn.lock');
 
   mirrorDir('babel');
   mirrorDir('pages');

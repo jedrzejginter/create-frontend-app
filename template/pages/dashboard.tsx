@@ -1,2 +1,3 @@
-import Dashboard from "@/pages/Dashboard"
-export default Dashboard
+import Dashboard from "@/pages/Dashboard";
+
+export default Dashboard;

@@ -2,10 +2,10 @@ import type { NextPageContext } from "next";
 import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Router from "next/router";
 
+import SessionProvider from "@/containers/Session";
 import api from "@/services/api";
 import { getCurrentUser, getServerSideAuthCookie } from "@/services/auth";
 import type { User } from "@/types/core";
-import SessionProvider from "@/containers/Session";
 
 import "@/services/mock-server";
 
@@ -51,8 +51,8 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
     try {
       user = await getCurrentUser();
 
-      if (pathname === '/login') {
-        redirectTo(ctx.ctx, 302, '/dashboard')
+      if (pathname === "/login") {
+        redirectTo(ctx.ctx, 302, "/dashboard");
       }
     } catch {
       // We have nothing to do here.
@@ -62,8 +62,8 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
   if (!token || !user) {
     delete api.defaults.headers.Authorization;
 
-    if (pathname === '/dashboard') {
-      redirectTo(ctx.ctx, 302, "/login")
+    if (pathname === "/dashboard") {
+      redirectTo(ctx.ctx, 302, "/login");
     }
   }
 

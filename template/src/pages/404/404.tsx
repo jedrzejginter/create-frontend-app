@@ -12,7 +12,7 @@ function Err404() {
         <a>&larr; Go to home page</a>
       </Link>
     </>
-  )
+  );
 }
 
-export default Err404
+export default Err404;

@@ -12,11 +12,11 @@ const spinnerData = [
   { rotateX: 320, begin: -1 / 9 },
 ];
 
-type Props = Omit<JSX.IntrinsicElements["svg"], "viewBox" | "height" | "width" | 'size'> & {
+type Props = Omit<JSX.IntrinsicElements["svg"], "viewBox" | "height" | "width" | "size"> & {
   size: number;
 };
 
-function Spinner({size,...props}: Props, ref?: Ref<SVGSVGElement>) {
+function Spinner({ size, ...props }: Props, ref?: Ref<SVGSVGElement>) {
   return (
     <svg {...props} height={size} width={size} ref={ref} viewBox="10 10 80 80">
       {spinnerData.map(({ rotateX, begin }) => (

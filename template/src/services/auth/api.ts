@@ -8,7 +8,7 @@ export async function getCurrentUser() {
 export async function logIn(body: {
   email: string;
   password: string;
-}): Promise<{ user: { id: string, email: string }; token: string }> {
+}): Promise<{ user: { id: string; email: string }; token: string }> {
   const { data } = await api.post("/auth/login", body);
 
   return {
