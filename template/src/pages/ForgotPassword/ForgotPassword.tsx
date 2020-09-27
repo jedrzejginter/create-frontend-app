@@ -2,7 +2,6 @@ import emailValidator from "email-validator";
 import { FormikErrors, FormikHelpers, useFormik } from "formik";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import FormError from "@/components/FormError";
@@ -26,7 +25,6 @@ export default function ForgotPassword() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [hasSuccess, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
   const isComponentMount = useRef<boolean>(true);
 
   useEffect(() => {
@@ -57,7 +55,7 @@ export default function ForgotPassword() {
         setLoading(false);
       }
     },
-    [router],
+    [],
   );
 
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = useFormik<FormValues>(

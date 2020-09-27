@@ -115,6 +115,7 @@ module.exports = {
     "react/require-default-props": OFF,
     "react/state-in-constructor": OFF,
     "react/static-property-placement": OFF,
+    "react-hooks/exhaustive-deps": ERROR,
     "symbol-description": OFF,
   },
 };
