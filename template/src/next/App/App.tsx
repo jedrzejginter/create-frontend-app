@@ -49,7 +49,7 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
 
   if (token) {
     try {
-      user = await getCurrentUser();
+      ({ user } = await getCurrentUser());
 
       if (pathname === "/login") {
         redirectTo(ctx.ctx, 302, "/dashboard");

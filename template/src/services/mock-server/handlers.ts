@@ -4,17 +4,30 @@ function withAPIUrl(path: string): string {
   return `${process.env.API_URL}${path}`;
 }
 
-const token = "123";
-const user = {
+const users = [{
   id: "3c105d1a-d588-4c65-bfb5-06abe48cd325",
   email: "user@example.com",
-};
+  password: 'P@ssw0rd!',
+  token: '123'
+}, {
+  id: "3c105d1a-d588-4c65-bfb5-06abe48cd326",
+  email: "test@example.com",
+  password: 'P@ssw0rd!',
+  token: '456'
+}];
 
 export const handlers = [
   rest.get(withAPIUrl("/auth/me"), (req, res, ctx) => {
     const authHeader: string | null = req.headers.get("authorization");
 
-    if (!authHeader || authHeader.split(" ")[1] !== token) {
+    if (!authHeader) {
+      return res(ctx.status(401));
+    }
+
+    const token = authHeader.split(" ")[1];
+    const currentUser = users.find((user) => user.token === token);
+
+    if (!currentUser) {
       return res(ctx.status(401));
     }
 
@@ -22,7 +35,7 @@ export const handlers = [
       ctx.delay(300),
       ctx.status(200),
       ctx.json({
-        user,
+        user: currentUser,
       }),
     );
   }),
@@ -32,24 +45,31 @@ export const handlers = [
       ctx.status(200));
   }),
   rest.post<{ email: string; password: string }>(withAPIUrl("/auth/login"), (req, res, ctx) => {
-    if (user.email === req.body.email && req.body.password === "P@ssw0rd!") {
+    const user = users.find(({ password, email }) => {
+      return password === req.body.password && email === req.body.email
+    });
+
+    if (!user) {
       return res(
-        ctx.delay(1500),
-        ctx.status(200),
+        ctx.delay(1000),
+        ctx.status(401),
         ctx.json({
-          user,
-          token: "123",
+          errors: {
+            general: "Invalid e-mail or password.",
+          },
         }),
       );
     }
 
     return res(
-      ctx.delay(1000),
-      ctx.status(401),
+      ctx.delay(1500),
+      ctx.status(200),
       ctx.json({
-        errors: {
-          general: "Invalid e-mail or password.",
+        user: {
+          id: user.id,
+          email: user.email,
         },
+        token: user.token,
       }),
     );
   }),
