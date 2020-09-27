@@ -25,6 +25,10 @@ export function forgotPassword(body: { email: string }) {
   return api.post("/auth/forgot-password", body);
 }
 
+export function resetPassword(body: { token: string; password: string }) {
+  return api.post("/auth/reset-password", body);
+}
+
 export function register(body: { email: string; password: string }) {
   return api.post("/auth/register", body);
 }

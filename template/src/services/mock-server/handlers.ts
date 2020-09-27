@@ -77,6 +77,33 @@ export const handlers = [
   rest.post(withAPIUrl("/auth/forgot-password"), (_, res, ctx) => {
     return res(ctx.delay(1000), ctx.status(200));
   }),
+  rest.post<{ token: string }>(withAPIUrl("/auth/reset-password"), (req, res, ctx) => {
+    if (!req.body.token) {
+      return res(
+        ctx.delay(500),
+        ctx.status(401),
+        ctx.json({
+          errors: {
+            general: "Reset token is missing.",
+          },
+        }),
+      );
+    }
+
+    if (req.body.token !== "xyz") {
+      return res(
+        ctx.delay(500),
+        ctx.status(400),
+        ctx.json({
+          errors: {
+            general: "Invalid reset token.",
+          },
+        }),
+      );
+    }
+
+    return res(ctx.delay(1000), ctx.status(200));
+  }),
   rest.post<{ email: string; password: string }>(withAPIUrl("/auth/register"), (req, res, ctx) => {
     const user = users.find(({ email }) => {
       return email === req.body.email;
