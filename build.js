@@ -47,6 +47,14 @@ function mirrorDir(dirName) {
 
   const pkgJson = require("./template/package.json");
   pkgJson.name = config.PROJECT_NAME;
+  pkgJson = {
+    ...pkgJson,
+    husky: {
+      hooks: {
+        "pre-commit": "lint-staged"
+      }
+    }
+  }
 
   fs.writeFileSync(targetPath('package.json'), JSON.stringify(pkgJson, null, 2), 'utf-8')
 })()

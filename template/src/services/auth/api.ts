@@ -21,13 +21,10 @@ export function logOut() {
   return api.delete("/auth/me");
 }
 
-export async function forgotPassword(body: { email: string }) {
-  return await api.post("/auth/forgot-password", body);
+export function forgotPassword(body: { email: string }) {
+  return api.post("/auth/forgot-password", body);
 }
 
-export function register(body: {
-  email: string;
-  password: string;
-}) {
+export function register(body: { email: string; password: string }) {
   return api.post("/auth/register", body);
 }

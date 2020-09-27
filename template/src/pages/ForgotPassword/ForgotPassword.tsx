@@ -43,7 +43,7 @@ export default function ForgotPassword() {
 
       try {
         await forgotPassword(values);
-        setSuccess(true)
+        setSuccess(true);
         resetForm();
       } catch (err: unknown) {
         const errorMessage = getErrorMessage(err, "Something went wrong!");
@@ -81,7 +81,9 @@ export default function ForgotPassword() {
       <h1>Forgot password?</h1>
       {error && <FormError>{error}</FormError>}
       {hasSuccess && (
-        <p style={{ color: 'green'}}>An e-mail has been sent to your address with password reset link.</p>
+        <p style={{ color: "green" }}>
+          An e-mail has been sent to your address with password reset link.
+        </p>
       )}
       <form onSubmit={handleSubmit}>
         <div>

@@ -2,12 +2,10 @@ import emailValidator from "email-validator";
 import { FormikErrors, FormikHelpers, useFormik } from "formik";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import FormError from "@/components/FormError";
 import Spinner from "@/components/Spinner";
-import { useSession } from "@/containers/Session";
 import { getErrorMessage } from "@/services/api";
 import { register } from "@/services/auth";
 
@@ -41,8 +39,6 @@ export default function Register() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [hasSuccess, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
-  const { createSession } = useSession();
   const isComponentMount = useRef<boolean>(true);
 
   useEffect(() => {
@@ -53,7 +49,7 @@ export default function Register() {
 
   const onSubmit = useCallback(
     async (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
-      setSuccess(false)
+      setSuccess(false);
       setError(null);
       setLoading(true);
 
@@ -63,9 +59,8 @@ export default function Register() {
           password: values.password,
         });
 
-        setSuccess(true)
+        setSuccess(true);
         resetForm();
-
       } catch (err: unknown) {
         const errorMessage = getErrorMessage(err, "Something went wrong!");
 
@@ -78,7 +73,7 @@ export default function Register() {
         setLoading(false);
       }
     },
-    [router, createSession],
+    [],
   );
 
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = useFormik<FormValues>(
@@ -105,7 +100,9 @@ export default function Register() {
       <h1>Register</h1>
       {error && <FormError>{error}</FormError>}
       {hasSuccess && (
-        <p style={{ color: 'green'}}>Your account has been created. Check your e-mail for required account activation steps.</p>
+        <p style={{ color: "green" }}>
+          Your account has been created. Check your e-mail for required account activation steps.
+        </p>
       )}
       <form onSubmit={handleSubmit}>
         <div>
@@ -142,7 +139,9 @@ export default function Register() {
             onChange={handleChange}
             value={values.passwordRepeat}
           />
-          {touched.passwordRepeat && errors.passwordRepeat && <FormError>{errors.passwordRepeat}</FormError>}
+          {touched.passwordRepeat && errors.passwordRepeat && (
+            <FormError>{errors.passwordRepeat}</FormError>
+          )}
         </div>
         <div>
           <label htmlFor="termsAndConditions">
@@ -155,7 +154,9 @@ export default function Register() {
             />
             I accept Terms and Conditions
           </label>
-          {touched.termsAndConditions && errors.termsAndConditions && <FormError>{errors.termsAndConditions}</FormError>}
+          {touched.termsAndConditions && errors.termsAndConditions && (
+            <FormError>{errors.termsAndConditions}</FormError>
+          )}
         </div>
         {isLoading && <Spinner size={16} />}
         <button disabled={isLoading} type="submit">

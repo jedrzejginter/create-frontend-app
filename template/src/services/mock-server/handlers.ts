@@ -4,17 +4,20 @@ function withAPIUrl(path: string): string {
   return `${process.env.API_URL}${path}`;
 }
 
-const users = [{
-  id: "3c105d1a-d588-4c65-bfb5-06abe48cd325",
-  email: "user@example.com",
-  password: 'P@ssw0rd!',
-  token: '123'
-}, {
-  id: "3c105d1a-d588-4c65-bfb5-06abe48cd326",
-  email: "test@example.com",
-  password: 'P@ssw0rd!',
-  token: '456'
-}];
+const users = [
+  {
+    id: "3c105d1a-d588-4c65-bfb5-06abe48cd325",
+    email: "user@example.com",
+    password: "P@ssw0rd!",
+    token: "123",
+  },
+  {
+    id: "3c105d1a-d588-4c65-bfb5-06abe48cd326",
+    email: "test@example.com",
+    password: "P@ssw0rd!",
+    token: "456",
+  },
+];
 
 export const handlers = [
   rest.get(withAPIUrl("/auth/me"), (req, res, ctx) => {
@@ -40,13 +43,11 @@ export const handlers = [
     );
   }),
   rest.delete(withAPIUrl("/auth/me"), (_, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.status(200));
+    return res(ctx.delay(300), ctx.status(200));
   }),
   rest.post<{ email: string; password: string }>(withAPIUrl("/auth/login"), (req, res, ctx) => {
     const user = users.find(({ password, email }) => {
-      return password === req.body.password && email === req.body.email
+      return password === req.body.password && email === req.body.email;
     });
 
     if (!user) {
@@ -74,14 +75,11 @@ export const handlers = [
     );
   }),
   rest.post(withAPIUrl("/auth/forgot-password"), (_, res, ctx) => {
-    return res(
-      ctx.delay(1000),
-      ctx.status(200),
-    );
+    return res(ctx.delay(1000), ctx.status(200));
   }),
-  rest.post<{ email: string, password: string }>(withAPIUrl("/auth/register"), (req, res, ctx) => {
+  rest.post<{ email: string; password: string }>(withAPIUrl("/auth/register"), (req, res, ctx) => {
     const user = users.find(({ email }) => {
-      return email === req.body.email
+      return email === req.body.email;
     });
 
     if (user) {
@@ -90,15 +88,12 @@ export const handlers = [
         ctx.status(400),
         ctx.json({
           errors: {
-            general: "This e-mail address is already used."
-          }
-        })
-      )
+            general: "This e-mail address is already used.",
+          },
+        }),
+      );
     }
 
-    return res(
-      ctx.delay(1000),
-      ctx.status(201),
-    );
+    return res(ctx.delay(1000), ctx.status(201));
   }),
 ];
