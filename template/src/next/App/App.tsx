@@ -5,6 +5,9 @@ import Router from "next/router";
 import api from "@/services/api";
 import { getCurrentUser, getServerSideAuthCookie } from "@/services/auth";
 import type { User } from "@/types/core";
+import SessionProvider from "@/containers/Session";
+
+import "@/services/mock-server";
 
 type InitialProps = AppInitialProps & {
   appProps: {
@@ -22,21 +25,24 @@ function redirectTo(ctx: NextPageContext, status: 301 | 302 | 404, location: str
   }
 }
 
-function App({ Component, pageProps, ...props }: InitialProps & AppProps) {
-  return <Component {...props} {...pageProps} />;
+function App({ Component, appProps, pageProps, ...props }: InitialProps & AppProps) {
+  return (
+    <SessionProvider token={appProps.token} user={appProps.user}>
+      <Component {...props} {...pageProps} />
+    </SessionProvider>
+  );
 }
 
 App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
   const token: string | null = getServerSideAuthCookie(ctx.ctx);
+  const { pathname } = ctx.ctx;
 
   // This single line is responsible for API request authentication.
   // IMPORTANT: Make sure it's before NextApp.getInitialProps call,
   // so auth token is already set in all Component.getInitialProps.
+  // Also, we have to have header set for when calling 'getCurrentUser'.
   if (token) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
-  } else {
-    // Make sure we won't use revoked token after log out.
-    delete api.defaults.headers.Authorization;
   }
 
   let user: User | null = null;
@@ -44,12 +50,20 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
   if (token) {
     try {
       user = await getCurrentUser();
-    } catch (err) {
-      // Make sure we clear invalid token.
-      delete api.defaults.headers.Authorization;
 
-      // If we have invalid token, let's redirect to login page.
-      redirectTo(ctx.ctx, 302, "/login");
+      if (pathname === '/login') {
+        redirectTo(ctx.ctx, 302, '/dashboard')
+      }
+    } catch {
+      // We have nothing to do here.
+    }
+  }
+
+  if (!token || !user) {
+    delete api.defaults.headers.Authorization;
+
+    if (pathname === '/dashboard') {
+      redirectTo(ctx.ctx, 302, "/login")
     }
   }
 

@@ -5,9 +5,14 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 
 import FormError from "@/components/FormError";
-import { logIn } from "@/services/auth";
+import { getErrorMessage } from "@/services/api";
+import { logIn, saveAuthToken } from "@/services/auth";
 
 import type { FormValues } from "./types";
+import Spinner from "@/components/Spinner";
+import useMountRef from "@/hooks/useMountRef";
+import { useRouter } from "next/router";
+import { useSession } from "@/containers/Session";
 
 function validate(values: FormValues): FormikErrors<FormValues> {
   const errors: FormikErrors<FormValues> = {};
@@ -24,28 +29,46 @@ function validate(values: FormValues): FormikErrors<FormValues> {
 }
 
 export default function Login() {
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const { createSession } = useSession();
+  const isComponentMount = useMountRef();
 
   const onSubmit = useCallback(async (values: FormValues) => {
     setError(null);
+    setLoading(true);
 
     try {
-      await logIn(values);
+      const { user, token } = await logIn(values);
+
+      saveAuthToken(token);
+      createSession(token, user);
+      router.push('/dashboard');
+
+      // We can exit immediately, because the redirect will happen,
+      // so we don't care about UI updates.
+      return;
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
+      const errorMessage = getErrorMessage(err, 'Something went wrong!');
+
+      if (isComponentMount.current) {
+        setError(errorMessage);
       }
     }
-  }, []);
+
+    if (isComponentMount.current) {
+      setLoading(false)
+    }
+  }, [router, createSession]);
 
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = useFormik<FormValues>(
     {
       onSubmit,
       validate,
-      validateOnMount: true,
       initialValues: {
-        email: "",
-        password: "",
+        email: process.env.DEFAULT_USER_EMAIL ?? '',
+        password: process.env.DEFAULT_USER_PASSWORD ?? '',
       },
     },
   );
@@ -85,7 +108,8 @@ export default function Login() {
           />
           {touched.password && errors.password && <FormError>{errors.password}</FormError>}
         </div>
-        <button type="submit">Log in</button>
+        {isLoading && <Spinner size={16} />}
+        <button disabled={isLoading} type="submit">Log in</button>
       </form>
       <Link href="/forgot-password" passHref>
         <a>Forgot password?</a>

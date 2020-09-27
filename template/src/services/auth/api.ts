@@ -1,15 +1,15 @@
 import api from "@/services/api";
 
 export async function getCurrentUser() {
-  const { data } = await api.get("/users/me");
+  const { data } = await api.get("/auth/me");
   return data;
 }
 
 export async function logIn(body: {
   email: string;
   password: string;
-}): Promise<{ user: {}; token: string | null }> {
-  const { data } = await api.post("/login", body);
+}): Promise<{ user: { id: string, email: string }; token: string }> {
+  const { data } = await api.post("/auth/login", body);
 
   return {
     user: data.user,
@@ -18,5 +18,5 @@ export async function logIn(body: {
 }
 
 export function logOut() {
-  return api.delete("/logout");
+  return api.delete("/auth/me");
 }
