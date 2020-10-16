@@ -42,18 +42,12 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.spec.jsx"],
-      rules: {
-        "jsx-a11y/control-has-associated-label": OFF,
-      },
-    },
-    {
-      files: ["scripts/*.js"],
+      files: ["next.config.js", "scripts/*.js"],
       rules: {
         "import/no-extraneous-dependencies": [
           ERROR,
           {
-            devDependencies: ["scripts/*.js"],
+            devDependencies: ["next.config.js", "scripts/*.js"],
           },
         ],
       },
@@ -93,17 +87,7 @@ module.exports = {
     "no-restricted-globals": OFF,
     "no-restricted-syntax": OFF,
     "no-underscore-dangle": OFF,
-    "prettier/prettier": [
-      ERROR,
-      {
-        printWidth: 100,
-        semi: true,
-        singleQuote: false,
-        tabWidth: 2,
-        trailingComma: "all",
-      },
-      { usePrettierrc: false },
-    ],
+    "prettier/prettier": ERROR,
     "react/destructuring-assignment": OFF,
     "react/jsx-one-expression-per-line": OFF,
     "react/jsx-props-no-spreading": OFF,

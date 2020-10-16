@@ -37,6 +37,15 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
   const token: string | null = getServerSideAuthCookie(ctx.ctx);
   const { pathname } = ctx.ctx;
 
+  // Returned after redirect.
+  const fallbackProps: InitialProps = {
+    appProps: {
+      user: null,
+      token: null,
+    },
+    pageProps: {},
+  };
+
   // This single line is responsible for API request authentication.
   // IMPORTANT: Make sure it's before NextApp.getInitialProps call,
   // so auth token is already set in all Component.getInitialProps.
@@ -53,6 +62,7 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
 
       if (pathname === "/login") {
         redirectTo(ctx.ctx, 302, "/dashboard");
+        return fallbackProps;
       }
     } catch {
       // We have nothing to do here.
@@ -64,6 +74,7 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
 
     if (pathname === "/dashboard") {
       redirectTo(ctx.ctx, 302, "/login");
+      return fallbackProps;
     }
   }
 

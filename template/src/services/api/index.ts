@@ -1,4 +1,4 @@
-import api from "./instance";
+import api from "./client";
 
 export default api;
 export * from "./utils";

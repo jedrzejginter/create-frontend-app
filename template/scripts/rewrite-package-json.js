@@ -17,7 +17,7 @@ function filterDependencies(oldDependencies, shouldBeRemoved) {
 function checkIfShouldBeRemoved(dependencyName) {
   return (
     /^(eslint|@typescript-eslint\/|@testing-library\/)/.test(dependencyName) ||
-    ["husky", "jest", "lint-staged", "prettier"].includes(dependencyName)
+    ["@next/bundle-analyzer", "husky", "jest", "lint-staged", "prettier"].includes(dependencyName)
   );
 }
 

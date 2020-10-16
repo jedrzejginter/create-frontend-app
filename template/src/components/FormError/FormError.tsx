@@ -1,6 +1,8 @@
 import { memo } from "react";
 
-type Props = JSX.IntrinsicElements["div"];
+import type { JSXComponentProps } from "@/types/react";
+
+type Props = JSXComponentProps<"div">;
 
 function FormError({ style, ...props }: Props) {
   return <div style={{ color: "red", ...style }} {...props} />;

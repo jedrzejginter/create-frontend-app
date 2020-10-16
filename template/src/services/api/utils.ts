@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 function hasResponse(err: unknown): err is { response?: any } {
   return typeof err === "object" && err !== null && "response" in err;
