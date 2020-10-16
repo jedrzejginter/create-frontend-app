@@ -3,25 +3,29 @@ const path = require('path');
 const { execSync } = require('child_process');
 const rimraf = require('rimraf');
 const cpy = require('cpy');
+const { quote } = require('shell-quote');
 
 function root(...segments) {
   return path.join(__dirname, '..', ...segments);
 }
 
+function q(s) {
+  return quote([s]);
+}
+
 module.exports = async function createReactProject(options) {
-  // Prevent writing to non-empty directory.
-  if (fs.existsSync(options.out)) {
-    throw new Error(`Cannot write files to non-empty directory ${path.resolve(options.out)}`);
+  // Prevent writing to non-empty directory if flag "--force" HAS NOT been set.
+  if (!options.force && fs.existsSync(options.out)) {
+    throw new Error(`Cannot write files to non-empty directory ${q(path.resolve(options.out))}`);
   }
 
-  // Copy template files sto output directory.
+  // Copy template directories to output.
   for (const dir of [".vscode", "babel", "pages", "public", "scripts", "src", "typings"]) {
-    // "-R" copy whole directory subtree
     // "-P" don't allow symbolic links
-    execSync(`cp -R -P ${root(`template/${dir}`)} ${options.out}`, {stdio: 'inherit'});
+    execSync(`cp -R -P ${root(`template/${dir}`)} ${q(options.out)}`, {stdio: 'inherit'});
   }
 
-  // Copy files from template dir.
+  // Copy top-level files from template dir.
   await cpy([
     root('template/*'), root('template/.*')], options.out, {
     // Make sure we will copy top-level files only.
@@ -30,7 +34,7 @@ module.exports = async function createReactProject(options) {
     gitignore: true,
   });
 
-  const pkg = require("./template/package.json");
+  const pkg = require(require.resolve(root("template/package.json")));
 
   // Set correct project name in package.json
   pkg.name = options.name;
@@ -42,7 +46,11 @@ module.exports = async function createReactProject(options) {
   rimraf.sync(path.join(options.out, 'yarn.lock'));
 
   if (!Boolean(process.env.SKIP_SCRIPTS)) {
-    execSync(`(cd ${options.out} && yarn && yarn lint --fix && yarn typecheck)`, {
+    execSync(`(cd ${q(options.out)} && yarn && yarn lint --fix && yarn typecheck)`, {
+      stdio: 'inherit'
+    });
+
+    execSync(`CRP_ARG_OUT=${q(options.out)} CRP_ARG_NAME=${q(options.name)} yarn test`, {
       stdio: 'inherit'
     });
   }
