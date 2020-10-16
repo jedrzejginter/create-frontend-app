@@ -1,12 +1,17 @@
 import Head from "next/head";
 import Link from "next/link";
 
+import HomeIcon from '@/assets/icons/home.svg';
+
 export default function Home() {
   return (
     <>
       <Head>
         <title>Welcome!</title>
       </Head>
+      <div>
+        <HomeIcon />
+      </div>
       <Link href="/login" passHref>
         <a>Log in</a>
       </Link>{" "}
