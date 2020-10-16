@@ -55,7 +55,7 @@ jobs:
           EOF
 
       - run: heroku container:login
-      - run: (cd out && docker build --tag registry.heroku.com/create-frontend-app/web .)
-      - run: docker push registry.heroku.com/create-frontend-app/web
-      - run: heroku container:release web --app create-frontend-app
+      - run: (cd out && docker build --tag registry.heroku.com/create-react-project/web .)
+      - run: docker push registry.heroku.com/create-react-project/web
+      - run: heroku container:release web --app create-react-project
 

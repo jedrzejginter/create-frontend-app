@@ -1,4 +1,4 @@
-# create-frontend-app
+# create-react-project
 
 ```
 > yarn create-project
