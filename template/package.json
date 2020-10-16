@@ -10,7 +10,7 @@
   "scripts": {
     "build": "NODE_ENV=production next build",
     "dev": "next -p ${PORT:-3000}",
-    "elint": "eslint . --ext ts,tsx,js,jsx --config eslint.config.js",
+    "elint": "eslint --ext ts,tsx,js,jsx --config eslint.config.js",
     "lint": "yarn eslint .",
     "lint-package-json": "node scripts/lint-package-json.js",
     "start": "NODE_ENV=production next start -p ${PORT:-3000}",
