@@ -1,3 +1,4 @@
+import type { JSXComponentProps } from "@/types/react";
 import { memo, forwardRef, Ref } from "react";
 
 const spinnerData = [
@@ -12,9 +13,12 @@ const spinnerData = [
   { rotateX: 320, begin: -1 / 9 },
 ];
 
-type Props = Omit<JSX.IntrinsicElements["svg"], "viewBox" | "height" | "width" | "size"> & {
+type Props = JSXComponentProps<"svg", {
+  height: never,
   size: number;
-};
+  viewBox: never,
+  width: never,
+}>;
 
 function Spinner({ size, ...props }: Props, ref?: Ref<SVGSVGElement>) {
   return (

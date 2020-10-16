@@ -1,6 +1,11 @@
 #!/bin/sh -e
 
+rm -rf template/.next
+rm -rf template/out
+rm -rf template/node_modules
+
 echo 'Build project structure'
+cp -R template out
 node build.js
 
 echo 'Codemod'

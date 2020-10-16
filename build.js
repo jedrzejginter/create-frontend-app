@@ -21,37 +21,8 @@ function mirrorDir(dirName) {
 }
 
 (() => {
-  fs.mkdirSync(targetPath(), { recursive: true });
-
-  mirrorFile('.dockerignore');
-  mirrorFile('.env.example');
-  mirrorFile('.eslintignore');
-  mirrorFile('.gitignore');
-  mirrorFile('.nvmrc');
-  mirrorFile('babel.config.js');
-  mirrorFile('Dockerfile');
-  mirrorFile('eslint.config.js');
-  mirrorFile('next-env.d.ts');
-  mirrorFile('next.config.js');
-  mirrorFile('README.md');
-  mirrorFile('tsconfig.eslint.json');
-  mirrorFile('tsconfig.json');
-  mirrorFile('yarn.lock');
-
-  mirrorDir('babel');
-  mirrorDir('pages');
-  mirrorDir('public');
-  mirrorDir('scripts');
-  mirrorDir('src');
-  mirrorDir('typings');
-
   const pkgJson = require("./template/package.json");
   pkgJson.name = config.PROJECT_NAME;
-  pkgJson.husky = {
-    hooks: {
-      "pre-commit": "lint-staged"
-    }
-  }
 
   fs.writeFileSync(targetPath('package.json'), JSON.stringify(pkgJson, null, 2), 'utf-8')
 })()

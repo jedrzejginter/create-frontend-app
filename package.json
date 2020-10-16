@@ -9,7 +9,7 @@
     "node": "12"
   },
   "scripts": {
-    "create-project": "rm -rf out && sh -e ./create.sh",
+    "create-project": "sh -e ./create.sh",
     "test": "jest"
   },
   "dependencies": {
