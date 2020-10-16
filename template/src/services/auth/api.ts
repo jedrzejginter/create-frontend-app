@@ -29,7 +29,7 @@ export function resetPassword(body: { token: string; password: string }) {
   return api.post("/auth/reset-password", body);
 }
 
-export function register(body: { email: string; password: string }) {
+export function createAccount(body: { email: string; password: string }) {
   return api.post("/auth/register", body);
 }
 

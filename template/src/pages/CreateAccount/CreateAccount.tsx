@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import FormError from "@/components/FormError";
 import Spinner from "@/components/Spinner";
 import { getErrorMessage } from "@/services/api";
-import { register } from "@/services/auth";
+import { createAccount } from "@/services/auth";
 
 import type { FormValues } from "./types";
 
@@ -35,7 +35,7 @@ function validate(values: FormValues): FormikErrors<FormValues> {
   return errors;
 }
 
-export default function Register() {
+export default function CreateAccount() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [hasSuccess, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +54,7 @@ export default function Register() {
       setLoading(true);
 
       try {
-        await register({
+        await createAccount({
           email: values.email,
           password: values.password,
         });

@@ -11,7 +11,7 @@ export default function Home() {
         <a>Log in</a>
       </Link>{" "}
       |{" "}
-      <Link href="/register" passHref>
+      <Link href="/create-account" passHref>
         <a>Create an account</a>
       </Link>
     </>

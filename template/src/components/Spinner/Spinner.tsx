@@ -1,4 +1,4 @@
-import { memo, forwardRef, Ref } from "react";
+import { forwardRef, Ref } from "react";
 
 import type { JSXComponentProps } from "@/types/react";
 
@@ -53,4 +53,4 @@ function Spinner({ size, ...props }: Props, ref?: Ref<SVGSVGElement>) {
   );
 }
 
-export default memo(forwardRef(Spinner));
+export default forwardRef(Spinner);
