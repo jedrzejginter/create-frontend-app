@@ -3,14 +3,14 @@ const { CLIEngine } = require("eslint");
 
 const cli = new CLIEngine({});
 
+function filterFiles(filenames) {
+  return filenames
+    .filter((file) => !cli.isPathIgnored(file))
+    .map((f) => `"${f}"`)
+    .join(" ");
+}
+
 module.exports = {
-  "*.{json,md}": "prettier --write",
-  "*.js": (filenames) => {
-    return [
-      `yarn lint --fix ${filenames
-        .filter((file) => !cli.isPathIgnored(file))
-        .map((f) => `"${f}"`)
-        .join(" ")}`,
-    ];
-  },
+  "*.{json,md}": (filenames) => `prettier --write ${filterFiles(filenames)}`,
+  "*.js": (filenames) => `yarn lint --fix ${filterFiles(filenames)}`,
 };
