@@ -45,5 +45,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-template-node-modules-
 
-      - run: yarn --pure-lockfile
+      - run: yarn --pure-lockfile --ignore-optional
       - run: yarn create-project

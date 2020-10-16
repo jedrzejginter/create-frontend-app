@@ -7,7 +7,7 @@ module.exports = (api) => {
     // Allow importing SVG files.
     // import Icon from "@/assets/icons/icon.svg"
     // Icon will be a React component.
-    "inline-react-svg"
+    "inline-react-svg",
   ];
 
   // Remove "data-testid" from components in production bundle.
