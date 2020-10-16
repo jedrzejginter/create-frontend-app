@@ -42,18 +42,12 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.spec.jsx"],
-      rules: {
-        "jsx-a11y/control-has-associated-label": OFF,
-      },
-    },
-    {
-      files: ["scripts/*.js"],
+      files: ["next.config.js", "scripts/*.js"],
       rules: {
         "import/no-extraneous-dependencies": [
           ERROR,
           {
-            devDependencies: ["scripts/*.js"],
+            devDependencies: ["next.config.js", "scripts/*.js"],
           },
         ],
       },

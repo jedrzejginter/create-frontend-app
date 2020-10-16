@@ -41,9 +41,9 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
   const fallbackProps: InitialProps = {
     appProps: {
       user: null,
-      token: null
+      token: null,
     },
-    pageProps: {}
+    pageProps: {},
   };
 
   // This single line is responsible for API request authentication.
@@ -62,7 +62,7 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
 
       if (pathname === "/login") {
         redirectTo(ctx.ctx, 302, "/dashboard");
-        return fallbackProps
+        return fallbackProps;
       }
     } catch {
       // We have nothing to do here.
@@ -74,7 +74,7 @@ App.getInitialProps = async (ctx: AppContext): Promise<InitialProps> => {
 
     if (pathname === "/dashboard") {
       redirectTo(ctx.ctx, 302, "/login");
-      return fallbackProps
+      return fallbackProps;
     }
   }
 

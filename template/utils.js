@@ -12,14 +12,14 @@ module.exports.filterEnv = function filterEnv(allEnv) {
   }
 
   return cleanEnv;
-}
+};
 
 /**
  * Function returning input value.
  */
 module.exports.identity = function identity(v) {
   return v;
-}
+};
 
 /**
  * Compose multiple functions into one to avoid "nesting hell".
@@ -29,4 +29,4 @@ module.exports.compose = function compose(fns) {
   return (arg) => {
     return fns.reduceRight((acc, fn) => fn(acc), arg);
   };
-}
+};

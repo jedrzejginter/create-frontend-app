@@ -1,5 +1,6 @@
 const envalid = require("envalid");
-const { compose, filterEnv, identity } = require('./utils');
+
+const { compose, filterEnv, identity } = require("./utils");
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
@@ -34,9 +35,7 @@ if (env.ANALYZE) {
   withBundleAnalyzer = bundleAnalyzer({ enabled: true });
 }
 
-module.exports = compose(
-  [withBundleAnalyzer],
-)({
+module.exports = compose([withBundleAnalyzer])({
   // Populate process.env with our environment variables.
   env: filterEnv(env),
 
@@ -50,7 +49,7 @@ module.exports = compose(
   reactStrictMode: true,
 
   // Custom webpack config.
-  webpack: (config, options) => {
+  webpack: (config) => {
     return config;
   },
 });

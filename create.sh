@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+rm -rf out
+
 rm -rf template/.next
 rm -rf template/out
 rm -rf template/node_modules

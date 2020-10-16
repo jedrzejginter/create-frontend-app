@@ -1,5 +1,6 @@
-import type { JSXComponentProps } from "@/types/react";
 import { memo } from "react";
+
+import type { JSXComponentProps } from "@/types/react";
 
 type Props = JSXComponentProps<"div">;
 
