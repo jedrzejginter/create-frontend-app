@@ -1,35 +1,35 @@
 #!/usr/bin/env node
-const yargs = require('yargs/yargs');
-const createReactProject = require('./core');
+const yargs = require("yargs/yargs");
+const createReactProject = require("./core");
 
-const argv = yargs(yargs.hideBin(process.argv))
-  .locale('en')
-  .option('out', {
-    alias: 'o',
+const { argv } = yargs(yargs.hideBin(process.argv))
+  .locale("en")
+  .option("out", {
+    alias: "o",
     type: "string",
     demandOption: true,
     description: "Output directory for project files",
   })
   .option("name", {
-    alias: 'n',
-    type: 'string',
+    alias: "n",
+    type: "string",
     demandOption: true,
-    description: 'Project name to set in package.json'
+    description: "Project name to set in package.json",
   })
   .option("force", {
-    alias: 'f',
-    type: 'boolean',
+    alias: "f",
+    type: "boolean",
     default: false,
-    description: 'Allow writing to non-empty directory (specified by --out)'
-  })
-  .argv;
+    description: "Allow writing to non-empty directory (specified by --out)",
+  });
 
-(async() => {
+(async () => {
   try {
     await createReactProject(argv);
     process.exit(0);
   } catch (err) {
-    console.error(err)
+    // eslint-disable-next-line no-console
+    console.error(err);
     process.exit(1);
   }
-})()
+})();
