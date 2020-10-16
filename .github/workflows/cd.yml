@@ -45,17 +45,17 @@ jobs:
             ${{ runner.os }}-template-node-modules-
 
       - run: yarn --pure-lockfile
-      - run: yarn create-project
+      - run: yarn create-project -o app --name sample-project
 
-      - run: rm -f out/.env
+      - run: rm -f app/.env
       - name: Make env file
         run: |
-          cat > out/.env << EOF
+          cat > app/.env << EOF
           API_URL=http://localhost:3001
           EOF
 
       - run: heroku container:login
-      - run: (cd out && docker build --tag registry.heroku.com/create-frontend-app/web .)
-      - run: docker push registry.heroku.com/create-frontend-app/web
-      - run: heroku container:release web --app create-frontend-app
+      - run: (cd app && docker build --tag registry.heroku.com/create-react-project/web .)
+      - run: docker push registry.heroku.com/create-react-project/web
+      - run: heroku container:release web --app create-react-project
 

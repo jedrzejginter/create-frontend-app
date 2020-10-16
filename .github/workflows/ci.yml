@@ -46,4 +46,4 @@ jobs:
             ${{ runner.os }}-template-node-modules-
 
       - run: yarn --pure-lockfile --ignore-optional
-      - run: yarn create-project
+      - run: yarn create-project --out app --name sample-project

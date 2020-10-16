@@ -1,7 +1,7 @@
 {
-  "name": "project",
+  "name": "create-react-project",
   "version": "0.0.0",
-  "repository": "git@github.com:jedrzejginter/create-frontend-app.git",
+  "repository": "git@github.com:jedrzejginter/create-react-project.git",
   "author": "Jedrzej Ginter <dzeejj@gmail.com> (https://github.com/jedrzejginter)",
   "license": "MIT",
   "engines": {
