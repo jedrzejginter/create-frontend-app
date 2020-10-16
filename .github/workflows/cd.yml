@@ -1,11 +1,9 @@
 name: CD
-
 on:
   push:
     branches: [master]
-
 jobs:
-  create-project:
+  deploy-project:
     runs-on: ubuntu-latest
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN }}
@@ -29,6 +27,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Restore node_modules cache for repo
         uses: actions/cache@v1
         with:
@@ -37,13 +36,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-root-node-modules-
 
-      - name: Restore node_modules cache for src project
+      - name: Restore node_modules cache for template project
         uses: actions/cache@v1
         with:
-          path: ./src/node_modules
-          key: ${{ runner.os }}-src-node-modules-${{ hashFiles('src/yarn.lock') }}
+          path: ./template/node_modules
+          key: ${{ runner.os }}-template-node-modules-${{ hashFiles('template/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-src-node-modules-
+            ${{ runner.os }}-template-node-modules-
 
       - run: yarn --pure-lockfile
       - run: yarn create-project

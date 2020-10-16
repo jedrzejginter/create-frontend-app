@@ -7,6 +7,8 @@ export function saveAuthToken(token: string): void {
   setCookie({}, AUTH_TOKEN_COOKIE, token, {
     maxAge: 24 * 60 * 60,
     path: "/",
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
   });
 }
 
