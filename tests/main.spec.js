@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const glob = require("glob");
 
 const OUT_DIR = process.env.CRP_ARG_OUT;
 const PROJECT_NAME = process.env.CRP_ARG_NAME;
@@ -14,6 +15,35 @@ function readOutFile(...segments) {
 
 // eslint-disable-next-line import/no-dynamic-require
 const pkg = require(require.resolve(outPath("package.json")));
+
+test("should have correct files structure", () => {
+  const projectPaths = glob
+    .sync(outPath("**/*"), {
+      nodir: true,
+      dot: true,
+      ignore: "**/node_modules/**",
+    })
+    .map((p) => path.relative(outPath(), p))
+    .sort((pathA, pathB) => {
+      let dirA = path.dirname(pathA);
+      let dirB = path.dirname(pathB);
+
+      if (pathA === pathB) {
+        return 0;
+      }
+
+      if (dirA === dirB) {
+        return pathA > pathB ? 1 : -1;
+      }
+
+      dirA = dirA === "." ? "x" : dirA;
+      dirB = dirB === "." ? "x" : dirB;
+
+      return dirA > dirB ? 1 : -1;
+    });
+
+  expect(projectPaths).toMatchSnapshot();
+});
 
 describe(".gitignore", () => {
   it("should not ignore typings directory", () => {
