@@ -23,6 +23,8 @@ module.exports = async function createReactProject(options) {
     );
   }
 
+  execSync(`mkdir -p ${q(options.out)}`, { stdio: "inherit" });
+
   // Copy template directories to output.
   for (const dir of [
     ".vscode",
@@ -34,6 +36,7 @@ module.exports = async function createReactProject(options) {
     "typings",
   ]) {
     // "-P" don't allow symbolic links
+    // The trailing slash in out dir is very important!
     execSync(`cp -R -P ${root(`template/${dir}`)} ${q(options.out)}`, {
       stdio: "inherit",
     });
