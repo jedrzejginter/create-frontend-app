@@ -20,6 +20,8 @@ jobs:
       - run: date > target/generated.txt
       - run: |
           cd target
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add generated.txt
           git commit -m 'test commit'
           git remote add source git@github.com:jedrzejginter/crp-test.git
