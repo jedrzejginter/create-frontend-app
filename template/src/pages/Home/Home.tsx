@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import HomeIcon from '@/assets/icons/home.svg';
+import HomeIcon from "@/assets/icons/home.svg";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
         <title>Welcome!</title>
       </Head>
       <div>
-        <HomeIcon />
+        <HomeIcon style={{ height: "2rem", width: "2rem" }} />
       </div>
       <Link href="/login" passHref>
         <a>Log in</a>
