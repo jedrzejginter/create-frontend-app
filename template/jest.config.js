@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require("path");
 
 module.exports = {
   setupFilesAfterEnv: [path.join(__dirname, "jest.setup.js")],
