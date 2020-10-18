@@ -27,6 +27,7 @@ module.exports = async function createReactProject(options) {
 
   // Copy template directories to output.
   for (const dir of [
+    ".github",
     ".vscode",
     "babel",
     "pages",

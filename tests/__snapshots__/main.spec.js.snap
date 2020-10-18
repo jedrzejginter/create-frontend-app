@@ -2,6 +2,8 @@
 
 exports[`should have correct files structure 1`] = `
 Array [
+  ".github/workflows/cd.yml",
+  ".github/workflows/ci.yml",
   ".vscode/settings.json",
   ".vscode/snippets.code-snippets",
   "babel/plugin-resolve-imports.js",
