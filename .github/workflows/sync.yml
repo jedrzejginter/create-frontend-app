@@ -10,6 +10,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: source
+
       - name: Checkout target
         uses: actions/checkout@v2
         with:
@@ -18,13 +19,39 @@ jobs:
           ref: main
           token: ${{ secrets.PAT }}
 
-      - run: date > target/generated.txt
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.4
+
+      - name: Get yarn cache dir
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Restore yarn global cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('source/**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Restore node_modules cache for repository
+        uses: actions/cache@v1
+        with:
+          path: source/node_modules
+          key: ${{ runner.os }}-root-node-modules-${{ hashFiles('source/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-root-node-modules-
+
+      - run: yarn --pure-lockfile --ignore-optional
+      - run: yarn create-project --out target --name crp-test-v2
+
       - run: |
           cd target
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add generated.txt
-          git commit -m 'test commit'
-          # git remote add source git@github.com:jedrzejginter/crp-test-v2.git
-          git push
+          git add .
+          git commit -m 'New version'
+          git push -f
 
