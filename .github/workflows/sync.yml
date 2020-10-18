@@ -13,7 +13,7 @@ jobs:
       - name: Checkout target
         uses: actions/checkout@v2
         with:
-          repository: jedrzejginter/crp-test
+          repository: jedrzejginter/crp-test-v2
           path: target
           ref: main
 
