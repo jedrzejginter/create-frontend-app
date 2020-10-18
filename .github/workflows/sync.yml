@@ -19,7 +19,8 @@ jobs:
 
       - run: date > source/generated.txt
       - run: |
-          git add source/generated.txt
+          cd target
+          git add /source/generated.txt
           git commit -m 'test commit'
           git remote add source git@github.com:jedrzejginter/crp-test.git
           git push source main
