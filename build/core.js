@@ -72,21 +72,6 @@ module.exports = async function createReactProject(options) {
     "utf-8"
   );
 
-  // Lint, typecheck and test generated project.
-  execSync(
-    `(cd ${q(options.out)} && yarn lint --fix && yarn typecheck && yarn test)`,
-    {
-      stdio: "inherit",
-    }
-  );
-
-  if (!options.skipTests) {
-    // Test if everything is set up correctly.
-    execSync(
-      `CRP_ARG_OUT=${q(options.out)} CRP_ARG_NAME=${q(options.name)} yarn test`,
-      {
-        stdio: "inherit",
-      }
-    );
-  }
+  // Format generated project.
+  execSync(`(cd ${q(options.out)} && yarn lint --fix)`, { stdio: "inherit" });
 };

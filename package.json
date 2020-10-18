@@ -12,7 +12,6 @@
     "create-react-project": "node build/cli.js"
   },
   "scripts": {
-    "create-project": "node build/cli.js",
     "eslint": "eslint --ext js --config eslint.config.js",
     "lint": "yarn eslint .",
     "test": "NODE_ENV=test jest"

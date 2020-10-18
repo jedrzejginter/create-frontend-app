@@ -54,7 +54,13 @@ jobs:
             ${{ runner.os }}-template-node-modules-
 
       - run: yarn --pure-lockfile --ignore-optional
-      - run: yarn create-project -f --out target --name create-react-project-app-01
+      - run: node build/cli.js --out target --name create-react-project-app-01 --force
+
+      # Run check in output project
+      - run: (cd target && yarn typecheck)
+      - run: (cd target && yarn test --ci)
+
+      - run: PROJECT_OUT=target PROJECT_NAME=create-react-project-app-01 yarn test --ci
 
       # Sync only for "main" branch.
       - name: Sync created project with external repo
