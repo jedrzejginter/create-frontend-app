@@ -42,12 +42,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-root-node-modules-
 
-      - run: yarn --pure-lockfile --ignore-optional
-      - run: yarn create-project --out target --name crp-test-v2
+      - run: yarn --pure-lockfile
+      - run: SKIP_SCRIPTS=true yarn create-project --out target --name crp-test-v2 -f
 
       - run: |
           cd target
-          git config user.name github-actions
+          git config user.name create-react-project
           git config user.email github-actions@github.com
           git add .
           git commit -m 'New version'
