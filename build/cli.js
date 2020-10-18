@@ -21,6 +21,11 @@ const { argv } = yargs(yargs.hideBin(process.argv))
     type: "boolean",
     default: false,
     description: "Allow writing to non-empty directory (specified by --out)",
+  })
+  .option("skipTests", {
+    type: "boolean",
+    default: false,
+    description: "Don't run tests agains",
   });
 
 (async () => {
