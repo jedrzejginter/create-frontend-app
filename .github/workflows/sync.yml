@@ -6,10 +6,8 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          path: source
 
       - name: Checkout target
         uses: actions/checkout@v2
