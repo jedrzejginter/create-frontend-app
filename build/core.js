@@ -73,9 +73,12 @@ module.exports = async function createReactProject(options) {
   );
 
   // Lint, typecheck and test generated project.
-  execSync(`(cd ${q(options.out)} && yarn lint --fix && yarn typecheck)`, {
-    stdio: "inherit",
-  });
+  execSync(
+    `(cd ${q(options.out)} && yarn lint --fix && yarn typecheck && yarn test)`,
+    {
+      stdio: "inherit",
+    }
+  );
 
   if (!options.skipTests) {
     // Test if everything is set up correctly.
