@@ -1,9 +1,19 @@
-# create-react-project
+<div align="center">
+  <h1>create-react-project</h1>
+  <p>CLI tool for creating React project ready to develop</p>
 
+  **create-react-project**\
+  <img src="https://github.com/jedrzejginter/create-react-project/workflows/main/badge.svg">
+
+  [**create-react-project-app-01**](https://github.com/jedrzejginter/create-react-project-app-01)\
+  <img src="https://github.com/jedrzejginter/create-react-project-app-01/workflows/CI/badge.svg">
+  <img src="https://github.com/jedrzejginter/create-react-project-app-01/workflows/CD/badge.svg">
+</div>
+
+---
+
+## Usage
+
+```bash
+> node build/cli.js --out project --name my-project
 ```
-> yarn create-project
-```
-
-## Out-of-the box features
-
-- support for import aliases (`@/path/to/module` resolves to `./src/path/to/module`)
