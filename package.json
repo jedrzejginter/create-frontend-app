@@ -13,7 +13,6 @@
   },
   "scripts": {
     "create-project": "node build/cli.js",
-    "dev": "SKIP_SCRIPTS=true yarn create-project -o out -n myproject -f && CRP_ARG_OUT=out CRP_ARG_NAME=myproject t --watch",
     "eslint": "eslint --ext js --config eslint.config.js",
     "lint": "yarn eslint .",
     "test": "NODE_ENV=test jest"
@@ -34,7 +33,7 @@
     "glob": "7.1.6",
     "husky": "4.3.0",
     "jest": "26.5.3",
-    "lint-staged": "10.4.1",
+    "lint-staged": "10.4.2",
     "prettier": "2.1.2"
   },
   "peerDependencies": {
@@ -42,7 +41,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && (cd template && lint-staged)"
+      "pre-commit": "lint-staged"
     }
   }
 }
