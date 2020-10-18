@@ -16,6 +16,7 @@ jobs:
           repository: jedrzejginter/crp-test-v2
           path: target
           ref: main
+          token: ${{ secrets.PAT }}
 
       - run: date > target/generated.txt
       - run: |
