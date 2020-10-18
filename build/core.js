@@ -52,11 +52,9 @@ module.exports = async function createReactProject(options) {
 
   // We want to install dependencies before pre-commit hooks is added,
   // so test project won't install it in repo.
-  if (!process.env.SKIP_SCRIPTS) {
-    execSync(`(cd ${q(options.out)} && yarn)`, {
-      stdio: "inherit",
-    });
-  }
+  execSync(`(cd ${q(options.out)} && yarn)`, {
+    stdio: "inherit",
+  });
 
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const pkg = require(require.resolve(root("template/package.json")));
@@ -74,18 +72,6 @@ module.exports = async function createReactProject(options) {
     "utf-8"
   );
 
-  // Lint, typecheck and test generated project.
-  if (!process.env.SKIP_SCRIPTS) {
-    execSync(`(cd ${q(options.out)} && yarn lint --fix && yarn typecheck)`, {
-      stdio: "inherit",
-    });
-
-    // Test if everything is set up correctly.
-    execSync(
-      `CRP_ARG_OUT=${q(options.out)} CRP_ARG_NAME=${q(options.name)} yarn test`,
-      {
-        stdio: "inherit",
-      }
-    );
-  }
+  // Format generated project.
+  execSync(`(cd ${q(options.out)} && yarn lint --fix)`, { stdio: "inherit" });
 };

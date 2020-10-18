@@ -1,3 +1,4 @@
 module.exports = {
-  modulePathIgnorePatterns: ["<rootDir>/template"],
+  rootDir: __dirname,
+  testMatch: ["<rootDir>/tests/**/*.spec.js"],
 };

@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
 
-const OUT_DIR = process.env.CRP_ARG_OUT;
-const PROJECT_NAME = process.env.CRP_ARG_NAME;
+const OUT_DIR = process.env.PROJECT_OUT;
+const PROJECT_NAME = process.env.PROJECT_NAME;
 
 function outPath(...segments) {
   return path.join(process.cwd(), OUT_DIR, ...segments);
