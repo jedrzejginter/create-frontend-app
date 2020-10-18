@@ -17,11 +17,11 @@ jobs:
           path: target
           ref: main
 
-      - run: date > source/generated.txt
+      - run: date > target/generated.txt
       - run: |
           cd target
-          git add $GITHUB_WORKSPACE/source/generated.txt
+          git add generated.txt
           git commit -m 'test commit'
           git remote add source git@github.com:jedrzejginter/crp-test.git
-          git push source main
+          git push -f source main
 
