@@ -1,0 +1,26 @@
+name: sync
+on:
+  push:
+    branches: ['feat/sync']
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          path: source
+      - name: Checkout target
+        uses: actions/checkout@v2
+        with:
+          repository: jedrzejginter/crp-test
+          path: target
+          ref: main
+
+      - run: date > source/generated.txt
+      - run: |
+          git add source/generated.txt
+          git commit -m 'test commit'
+          git remote add source git@github.com:jedrzejginter/crp-test.git
+          git push source main
+
