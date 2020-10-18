@@ -1,15 +1,25 @@
-name: CD
+name: main
 on:
   push:
     branches: [main]
+  pull_request:
+    branches:
+      - '**'
 jobs:
-  deploy-project:
+  create-project:
     runs-on: ubuntu-latest
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Checkout target repo
+        if: github.ref == 'refs/heads/main'
+        uses: actions/checkout@v2
+        with:
+          repository: jedrzejginter/create-react-project-app-01
+          path: target
+          ref: main
+          token: ${{ secrets.PAT }}
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -28,7 +38,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Restore node_modules cache for repo
+      - name: Restore node_modules cache for repository
         uses: actions/cache@v1
         with:
           path: ./node_modules
@@ -36,7 +46,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-root-node-modules-
 
-      - name: Restore node_modules cache for template project
+      - name: Restore node_modules cache for src project
         uses: actions/cache@v1
         with:
           path: ./template/node_modules
@@ -44,18 +54,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-template-node-modules-
 
-      - run: yarn --pure-lockfile
-      - run: yarn create-project -o app --name sample-project
+      - run: yarn --pure-lockfile --ignore-optional
+      - run: yarn create-project -f --out target --name create-react-project-app-01
 
-      - run: rm -f app/.env
-      - name: Make env file
+      - name: Sync created project with external repo
+        if: github.ref == 'refs/heads/main'
         run: |
-          cat > app/.env << EOF
-          API_URL=http://localhost:3001
-          EOF
-
-      - run: heroku container:login
-      - run: (cd app && docker build --tag registry.heroku.com/create-react-project/web .)
-      - run: docker push registry.heroku.com/create-react-project/web
-      - run: heroku container:release web --app create-react-project
-
+          cd target
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m 'update'
+          git push -f

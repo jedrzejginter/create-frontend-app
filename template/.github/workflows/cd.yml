@@ -6,6 +6,7 @@ jobs:
   deploy-project:
     runs-on: ubuntu-latest
     env:
+      HEROKU_APP: ${{ secrets.HEROKU_APP }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN }}
     steps:
       - name: Checkout code
@@ -39,11 +40,11 @@ jobs:
       - name: Make env file
         run: |
           cat > .env << EOF
-          API_URL=http://localhost:8080
+          API_URL=http://localhost:3000
           EOF
 
       - run: heroku container:login
-      - run: docker build --tag registry.heroku.com/create-react-project/web .
-      - run: docker push registry.heroku.com/create-react-project/web
-      - run: heroku container:release web --app create-react-project
+      - run: docker build --tag registry.heroku.com/$HEROKU_APP/web .
+      - run: docker push registry.heroku.com/$HEROKU_APP/web
+      - run: heroku container:release web --app $HEROKU_APP
 
