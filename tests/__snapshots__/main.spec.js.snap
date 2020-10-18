@@ -85,5 +85,6 @@ Array [
   "tsconfig.eslint.json",
   "tsconfig.json",
   "utils.js",
+  "yarn.lock",
 ]
 `;

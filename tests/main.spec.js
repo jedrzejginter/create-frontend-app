@@ -18,7 +18,11 @@ const pkg = require(require.resolve(outPath("package.json")));
 
 test("should have correct files structure", () => {
   const projectPaths = glob
-    .sync(outPath("**/*"), { nodir: true, dot: true })
+    .sync(outPath("**/*"), {
+      nodir: true,
+      dot: true,
+      ignore: "**/node_modules/**",
+    })
     .map((p) => path.relative(outPath(), p))
     .sort((pathA, pathB) => {
       let dirA = path.dirname(pathA);
