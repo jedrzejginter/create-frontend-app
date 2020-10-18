@@ -21,7 +21,7 @@ test("should have correct files structure", () => {
     .sync(outPath("**/*"), {
       nodir: true,
       dot: true,
-      ignore: "**/node_modules/**",
+      ignore: ["**/node_modules/**", "**/.git/**"],
     })
     .map((p) => path.relative(outPath(), p))
     .sort((pathA, pathB) => {
