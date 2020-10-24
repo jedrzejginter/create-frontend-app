@@ -45,14 +45,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-root-node-modules-
 
-      - name: Restore node_modules cache for src project
-        uses: actions/cache@v1
-        with:
-          path: ./template/node_modules
-          key: ${{ runner.os }}-template-node-modules-${{ hashFiles('template/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-template-node-modules-
-
       - run: yarn --pure-lockfile --ignore-optional
       - run: node build/cli.js --out target --name create-react-project-app-01 --force
 
