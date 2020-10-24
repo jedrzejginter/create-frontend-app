@@ -3,7 +3,7 @@ const path = require("path");
 const glob = require("glob");
 
 const OUT_DIR = process.env.PROJECT_OUT;
-const PROJECT_NAME = process.env.PROJECT_NAME;
+const { PROJECT_NAME } = process.env;
 
 function outPath(...segments) {
   return path.join(process.cwd(), OUT_DIR, ...segments);
@@ -27,7 +27,6 @@ test("should have correct files structure", () => {
   expect(projectPaths).toContain(".github/workflows/cd.yml");
   expect(projectPaths).toContain(".github/workflows/ci.yml");
   expect(projectPaths).toContain(".vscode/settings.json");
-  expect(projectPaths).toContain(".vscode/snippets.code-snippets");
   expect(projectPaths).toContain("babel/plugin-resolve-imports.js");
   expect(projectPaths).toContain("pages/404.tsx");
   expect(projectPaths).toContain("pages/_app.ts");
@@ -88,7 +87,6 @@ test("should have correct files structure", () => {
   expect(projectPaths).toContain("src/services/mock-server/index.ts");
   expect(projectPaths).toContain("src/services/mock-server/server.ts");
   expect(projectPaths).toContain("src/types/core.ts");
-  expect(projectPaths).toContain("src/types/react.ts");
   expect(projectPaths).toContain("src/utils/misc.ts");
   expect(projectPaths).toContain("typings/inline-react-svg.d.ts");
   expect(projectPaths).toContain("typings/node.d.ts");
