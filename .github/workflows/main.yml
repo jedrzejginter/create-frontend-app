@@ -56,7 +56,7 @@ jobs:
 
       # Sync only for "main" branch.
       - name: Sync created project with external repo
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           cp -R create-react-project-app-01/.git new-project/.git
           rm -rf create-react-project-app-01
@@ -65,5 +65,5 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "${{ github.event.head_commit.message }}"
+          git commit -m "[gh-actions] Push new version of the project"
           git push -f
