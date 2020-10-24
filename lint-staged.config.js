@@ -3,6 +3,7 @@ const { CLIEngine } = require("eslint");
 
 const cli = new CLIEngine({});
 
+// Filter out files that should be omitted by lint-staged.
 function filterFiles(filenames) {
   return filenames
     .filter((file) => !cli.isPathIgnored(file))
@@ -11,6 +12,6 @@ function filterFiles(filenames) {
 }
 
 module.exports = {
-  "*.{json,md}": (filenames) => `prettier --write ${filterFiles(filenames)}`,
+  "*.{json,md}": "prettier --write",
   "*.js": (filenames) => `yarn lint --fix ${filterFiles(filenames)}`,
 };
