@@ -3,7 +3,7 @@ const path = require("path");
 const glob = require("glob");
 
 function outPath(...segments) {
-  return path.join(process.cwd(), 'out', ...segments);
+  return path.join(process.cwd(), "out", ...segments);
 }
 
 function readOutFile(...segments) {

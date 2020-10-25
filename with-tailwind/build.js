@@ -36,10 +36,7 @@ module.exports = function withTailwind(options) {
 
   const cpMap = [
     [here("tailwind.config.js"), out("tailwind.config.js")],
-    [
-      here("src/assets/css/tailwind.css"),
-      out("src/assets/css/tailwind.css"),
-    ],
+    [here("src/assets/css/tailwind.css"), out("src/assets/css/tailwind.css")],
   ];
 
   for (const [source, target] of cpMap) {
