@@ -55,26 +55,20 @@ module.exports = async function createReactProject(options) {
     gitignore: true,
   });
 
-  // We want to install dependencies before pre-commit hooks is added,
-  // so test project won't install it in repo.
-  execSync(`(cd ${q(options.dir)} && yarn)`, {
-    stdio: "inherit",
-  });
-
   const pkg = requireJSON(path.join(options.dir, "package.json"));
 
   // Set correct project name in package.json
   pkg.name = options.name;
-
-  // Set husky config.
-  pkg.husky = pkg.__husky;
-  delete pkg.__husky;
 
   fs.writeFileSync(
     path.join(options.dir, "package.json"),
     JSON.stringify(pkg, null, 2),
     "utf-8"
   );
+
+  execSync(`(cd ${q(options.dir)} && yarn)`, {
+    stdio: "inherit",
+  });
 
   // Format generated project.
   execSync(`(cd ${q(options.dir)} && yarn lint --fix)`, { stdio: "inherit" });

@@ -61,7 +61,7 @@
     "lint-staged": "10.4.2",
     "prettier": "2.1.2"
   },
-  "__husky": {
+  "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }

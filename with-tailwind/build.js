@@ -88,4 +88,8 @@ module.exports = function withTailwind(options) {
   );
 
   fs.writeFileSync(gitignorePath, gitignore, "utf-8");
+
+  execSync(`(cd ${q(options.dir)} && yarn)`, {
+    stdio: "inherit",
+  });
 };

@@ -56,8 +56,11 @@ jobs:
       - name: Add Heroku deployment
         uses: ./.github/actions/build-and-test-project
         with:
-          cli-input: 'with-heroku-deploy -d out --app my-heroku-app --deployBranch project'
+          cli-input: 'with-heroku-deploy -d out --app create-react-project-app-01 --deployBranch project'
           test-task: with-heroku-deploy
+
+      # Try to build project
+      - run: (cd out && yarn build)
 
       - name: Checkout deploy branch
         uses: actions/checkout@v2

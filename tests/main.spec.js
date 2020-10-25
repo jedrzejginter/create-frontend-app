@@ -119,11 +119,6 @@ describe(".gitignore", () => {
 });
 
 describe("package.json", () => {
-  it("should have husky config set", () => {
-    expect(pkg).not.toHaveProperty("__husky");
-    expect(pkg).toHaveProperty("husky");
-  });
-
   it("should have all packages with exact versions", () => {
     const inexact = [];
     const deps = { ...pkg.dependencies, ...pkg.devDependencies };
