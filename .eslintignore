@@ -1,2 +1,5 @@
 template
 out
+
+# For CI
+create-react-project-app-*

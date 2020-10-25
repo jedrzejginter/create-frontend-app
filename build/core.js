@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require, global-require */
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
@@ -10,6 +11,14 @@ function root(...segments) {
 
 function q(s) {
   return quote([s]);
+}
+
+function log(m) {
+  process.stdout.write(`${m}\n`);
+}
+
+function requireJSON(p) {
+  return JSON.parse(fs.readFileSync(p, "utf-8"));
 }
 
 module.exports = async function createReactProject(options) {
@@ -50,14 +59,22 @@ module.exports = async function createReactProject(options) {
     gitignore: true,
   });
 
+  // Add tailwind.
+  if (options.withTailwind) {
+    log("Adding Tailwind support");
+
+    require("../with-tailwind/build")({
+      out: options.out,
+    });
+  }
+
   // We want to install dependencies before pre-commit hooks is added,
   // so test project won't install it in repo.
   execSync(`(cd ${q(options.out)} && yarn)`, {
     stdio: "inherit",
   });
 
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const pkg = require(require.resolve(root("template/package.json")));
+  const pkg = requireJSON(path.join(options.out, "package.json"));
 
   // Set correct project name in package.json
   pkg.name = options.name;

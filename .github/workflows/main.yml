@@ -46,17 +46,25 @@ jobs:
             ${{ runner.os }}-root-node-modules-
 
       - run: yarn --pure-lockfile --ignore-optional
-      - run: node build/cli.js --out new-project --name create-react-project-app-01 --force
+      - run: (cd with-tailwind && yarn)
+      - run: yarn lint
 
-      # Run check in output project
-      - run: (cd new-project && yarn typecheck)
-      - run: (cd new-project && yarn test --ci)
+      - name: Create basic project
+        uses: ./.github/actions/build-and-test-project
+        with:
+          out: new-project
+          name: create-react-project-app-01
+          cli-flags: '--force'
 
-      - run: PROJECT_OUT=new-project PROJECT_NAME=create-react-project-app-01 yarn test --ci
+      - name: Create project with Tailwind
+        uses: ./.github/actions/build-and-test-project
+        with:
+          out: create-react-project-with-tailwind
+          name: create-react-project-with-tailwind
+          cli-flags: '--withTailwind'
 
-      # Sync only for "main" branch.
-      - name: Sync created project with external repo
-        if: github.ref == 'refs/heads/main'
+      - name: Create commit with changes to generated project
+        id: git-commit
         run: |
           cp -R create-react-project-app-01/.git new-project/.git
           rm -rf create-react-project-app-01
@@ -65,5 +73,12 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "[gh-actions] Push new version of the project"
+          git diff --quiet && git diff --staged --quiet || \
+            git commit -m "[gh-actions] Push new version of the project"
+
+      # Sync only for "main" branch.
+      - name: Sync created project with external repo
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd create-react-project-app-01
           git push -f

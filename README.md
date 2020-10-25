@@ -17,3 +17,9 @@
 ```bash
 > node build/cli.js --out project --name my-project
 ```
+
+### Tailwind support
+
+```.bash
+> node build/cli.js --out project --name my-project --withTailwind
+```

@@ -1,0 +1,10 @@
+{
+  "name": "create-react-project__with-tailwind",
+  "license": "MIT",
+  "scripts": {
+    "build:tailwind": "tailwind build src/assets/css/tailwind.css -o src/assets/css/tailwind.out.css"
+  },
+  "dependencies": {
+    "tailwindcss": "1.9.6"
+  }
+}
