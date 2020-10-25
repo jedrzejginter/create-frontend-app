@@ -81,7 +81,7 @@ jobs:
 
       # Sync only for "main" branch.
       - name: Sync created project with branch
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main'
         run: |
           cd project-repo
           git push -f
