@@ -31,14 +31,14 @@ function sortKeys(o) {
 // 6. Add tailwind to dev deps
 module.exports = function withTailwind(options) {
   function out(...segments) {
-    return path.join(process.cwd(), options.out, ...segments);
+    return path.join(process.cwd(), options.dir, ...segments);
   }
 
   const cpMap = [
-    [here("tailwind.config.js"), path.join(options.out, "tailwind.config.js")],
+    [here("tailwind.config.js"), out("tailwind.config.js")],
     [
       here("src/assets/css/tailwind.css"),
-      path.join(options.out, "src/assets/css/tailwind.css"),
+      out("src/assets/css/tailwind.css"),
     ],
   ];
 

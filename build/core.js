@@ -13,26 +13,22 @@ function q(s) {
   return quote([s]);
 }
 
-function log(m) {
-  process.stdout.write(`${m}\n`);
-}
-
 function requireJSON(p) {
   return JSON.parse(fs.readFileSync(p, "utf-8"));
 }
 
 module.exports = async function createReactProject(options) {
   // Prevent writing to non-empty directory if flag "--force" HAS NOT been set.
-  if (!options.force && fs.existsSync(options.out)) {
+  if (!options.force && fs.existsSync(options.dir)) {
     throw new Error(
       `Cannot write files to non-empty directory ${q(
-        path.resolve(options.out)
+        path.resolve(options.dir)
       )}`
     );
   }
 
   // Create out dir, so `cp` will work correctly.
-  fs.mkdirSync(q(options.out), { recursive: true });
+  fs.mkdirSync(q(options.dir), { recursive: true });
 
   // Copy template directories to output.
   for (const dir of [
@@ -46,35 +42,26 @@ module.exports = async function createReactProject(options) {
     "typings",
   ]) {
     // "-P" don't allow symbolic links
-    execSync(`cp -R -P ${root(`template/${dir}`)} ${q(options.out)}`, {
+    execSync(`cp -R -P ${root(`template/${dir}`)} ${q(options.dir)}`, {
       stdio: "inherit",
     });
   }
 
   // Copy top-level files from template dir.
-  await cpy([root("template/*"), root("template/.*")], options.out, {
+  await cpy([root("template/*"), root("template/.*")], options.dir, {
     // Make sure we will copy top-level files only.
     expandDirectories: false,
     // Ignore paths specified in gitignore.
     gitignore: true,
   });
 
-  // Add tailwind.
-  if (options.withTailwind) {
-    log("Adding Tailwind support");
-
-    require("../with-tailwind/build")({
-      out: options.out,
-    });
-  }
-
   // We want to install dependencies before pre-commit hooks is added,
   // so test project won't install it in repo.
-  execSync(`(cd ${q(options.out)} && yarn)`, {
+  execSync(`(cd ${q(options.dir)} && yarn)`, {
     stdio: "inherit",
   });
 
-  const pkg = requireJSON(path.join(options.out, "package.json"));
+  const pkg = requireJSON(path.join(options.dir, "package.json"));
 
   // Set correct project name in package.json
   pkg.name = options.name;
@@ -84,11 +71,11 @@ module.exports = async function createReactProject(options) {
   delete pkg.__husky;
 
   fs.writeFileSync(
-    path.join(options.out, "package.json"),
+    path.join(options.dir, "package.json"),
     JSON.stringify(pkg, null, 2),
     "utf-8"
   );
 
   // Format generated project.
-  execSync(`(cd ${q(options.out)} && yarn lint --fix)`, { stdio: "inherit" });
+  execSync(`(cd ${q(options.dir)} && yarn lint --fix)`, { stdio: "inherit" });
 };

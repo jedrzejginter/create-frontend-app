@@ -1,40 +1,66 @@
 #!/usr/bin/env node
 const yargs = require("yargs/yargs");
-const createReactProject = require("./core");
 
-const { argv } = yargs(yargs.hideBin(process.argv))
+yargs(yargs.hideBin(process.argv))
   .locale("en")
-  .option("out", {
-    alias: "o",
-    type: "string",
-    demandOption: true,
-    description: "Output directory for project files",
+  .demandCommand(1)
+  .command("init", "Initialize project", (y) => {
+    y.option("dir", {
+      alias: "d",
+      type: "string",
+      demandOption: true,
+      description: "Output directory for project files",
+    })
+    .option("name", {
+      alias: "n",
+      type: "string",
+      demandOption: true,
+      description: "Project name to set in package.json",
+    })
+    .option("force", {
+      alias: "f",
+      type: "boolean",
+      default: false,
+      description: "Allow writing to non-empty directory (specified by --out)",
+    })
+  }, async (argv) => {
+    try {
+      await require("./core")(argv);
+      process.exit(0);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      process.exit(1);
+    }
   })
-  .option("name", {
-    alias: "n",
-    type: "string",
-    demandOption: true,
-    description: "Project name to set in package.json",
+  .command("with-tailwind", "Add Tailwind support", (y) => {
+    y.option("dir", {
+      alias: "d",
+      type: "string",
+      demandOption: true,
+      description: "Project directory",
+    })
+  }, (argv) => {
+    require('../with-tailwind/build.js')(argv)
   })
-  .option("force", {
-    alias: "f",
-    type: "boolean",
-    default: false,
-    description: "Allow writing to non-empty directory (specified by --out)",
-  })
-  .option("withTailwind", {
-    type: "boolean",
-    default: false,
-    description: "Add Tailwind setup",
-  });
+  .command("with-heroku-deploy", "Add Heroku deployment", (y) => {
+    y.option("dir", {
+      alias: "d",
+      type: "string",
+      demandOption: true,
+      description: "Project directory",
+    }).option("app", {
+      type: "string",
+      demandOption: true,
+      description: "Heroku app name",
+    }).option("deployBranch", {
+      type: "string",
+      demandOption: false,
+      default: 'main',
+      description: "Set deploy branch",
+    })
 
-(async () => {
-  try {
-    await createReactProject(argv);
-    process.exit(0);
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    process.exit(1);
-  }
-})();
+  }, (argv) => {
+    require('../with-heroku-deploy/build.js')(argv);
+  })
+  .argv
