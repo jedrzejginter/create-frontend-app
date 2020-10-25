@@ -64,6 +64,7 @@ jobs:
         with:
           ref: project
           path: project-repo
+          token: ${{ secrets.PAT }}
 
       - name: Create commit with changes to generated project
         id: git-commit
