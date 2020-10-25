@@ -49,13 +49,13 @@ jobs:
       - run: (cd with-tailwind && yarn)
       - run: yarn lint
 
-      - uses: ./.github/actions/build-and-test-project.yml
+      - uses: ./.github/actions/build-and-test-project
         with:
           out: new-project
           name: create-react-project-app-01
           cli-flags: '--force'
 
-      - uses: ./.github/actions/build-and-test-project.yml
+      - uses: ./.github/actions/build-and-test-project
         with:
           out: create-react-project-with-tailwind
           name: create-react-project-with-tailwind
