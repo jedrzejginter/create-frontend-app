@@ -15,8 +15,8 @@ jobs:
       - name: Checkout deploy branch
         uses: actions/checkout@v2
         with:
-          ref: 'main/project'
-          path: project-branch
+          ref: project
+          path: project-repo
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -62,16 +62,17 @@ jobs:
       - name: Add Heroku deployment
         uses: ./.github/actions/build-and-test-project
         with:
-          cli-input: 'with-heroku-deploy -d out --app my-heroku-app --deployBranch main/project'
+          cli-input: 'with-heroku-deploy -d out --app my-heroku-app --deployBranch project'
           test-task: with-heroku-deploy
 
       - name: Create commit with changes to generated project
         id: git-commit
         run: |
-          cp -R project-branch/.git out/.git
-          rm -rf project-branch
-          mv out project-branch
-          cd project-branch
+          cp -R project-repo/.git out/.git
+          rm -rf out/node_modules
+          rm -rf project-repo
+          mv out project-repo
+          cd project-repo
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
@@ -79,8 +80,8 @@ jobs:
             git commit -m "[gh-actions] Push new version of the project"
 
       # Sync only for "main" branch.
-      - name: Sync created project with external repo
+      - name: Sync created project with branch
         if: github.ref == 'refs/heads/main'
         run: |
-          cd project-branch
+          cd project-repo
           git push -f
