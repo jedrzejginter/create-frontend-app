@@ -12,12 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Checkout deploy branch
-        uses: actions/checkout@v2
-        with:
-          ref: project
-          path: project-repo
-
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -64,6 +58,12 @@ jobs:
         with:
           cli-input: 'with-heroku-deploy -d out --app my-heroku-app --deployBranch project'
           test-task: with-heroku-deploy
+
+      - name: Checkout deploy branch
+        uses: actions/checkout@v2
+        with:
+          ref: project
+          path: project-repo
 
       - name: Create commit with changes to generated project
         id: git-commit
