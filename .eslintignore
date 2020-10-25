@@ -1,5 +1,1 @@
-template
-out
-
-# For CI
-create-react-project-app-*
+public/mockServiceWorker.js

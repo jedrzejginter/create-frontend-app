@@ -12,6 +12,14 @@ function filterFiles(filenames) {
 }
 
 module.exports = {
-  "*.{json,md}": "prettier --write",
-  "*.js": (filenames) => `yarn lint --fix ${filterFiles(filenames)}`,
+  // Written as function, because this is how we can skip passing filenames
+  // to the command.
+  "package.json": () => "yarn lint-package-json",
+
+  // Format JSON and markdown files.
+  "*.{json,md}": (filenames) => `prettier --write ${filterFiles(filenames)}`,
+
+  // It's important not to use "yarn lint", because it will lint whole
+  // project anyway, so lint-staged wouldn't make any sense.
+  "*.{ts,tsx,js,jsx}": (filenames) => `yarn eslint --fix ${filterFiles(filenames)}`,
 };

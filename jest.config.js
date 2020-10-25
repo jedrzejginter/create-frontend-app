@@ -1,4 +1,5 @@
+const path = require("path");
+
 module.exports = {
-  rootDir: __dirname,
-  testMatch: ["<rootDir>/tests/**/*.spec.js"],
+  setupFilesAfterEnv: [path.join(__dirname, "jest.setup.js")],
 };
