@@ -1,10 +1,11 @@
-const fs = require('fs');
-const path = require('path');
+/* eslint-disable import/no-extraneous-dependencies, import/no-dynamic-require, global-require */
+const fs = require("fs");
+const path = require("path");
 const { execSync } = require("child_process");
 const { quote } = require("shell-quote");
 const t = require("@babel/types");
 
-const codemod = require('../codemod')
+const codemod = require("../codemod");
 
 function here(...segments) {
   return path.join(__dirname, ...segments);
@@ -15,9 +16,11 @@ function q(s) {
 }
 
 function sortKeys(o) {
-  return Object.keys(o).sort().reduce((acc, k) => {
-    return { ...acc, [k]: o[k] }
-  }, {});
+  return Object.keys(o)
+    .sort()
+    .reduce((acc, k) => {
+      return { ...acc, [k]: o[k] };
+    }, {});
 }
 
 // 1. Copy tailwind config
@@ -28,13 +31,16 @@ function sortKeys(o) {
 // 6. Add tailwind to dev deps
 module.exports = function withTailwind(options) {
   function out(...segments) {
-    return path.join(process.cwd(), options.out, ...segments)
+    return path.join(process.cwd(), options.out, ...segments);
   }
 
   const cpMap = [
-    [here("tailwind.config.js"), path.join(options.out, 'tailwind.config.js')],
-    [here("src/assets/css/tailwind.css"), path.join(options.out, 'src/assets/css/tailwind.css')],
-  ]
+    [here("tailwind.config.js"), path.join(options.out, "tailwind.config.js")],
+    [
+      here("src/assets/css/tailwind.css"),
+      path.join(options.out, "src/assets/css/tailwind.css"),
+    ],
+  ];
 
   for (const [source, target] of cpMap) {
     fs.mkdirSync(path.dirname(target), { recursive: true });
@@ -44,42 +50,45 @@ module.exports = function withTailwind(options) {
     });
   }
 
-  const outPkgJsonPath = require.resolve(out('package.json'));
-  const currentPkgJson = require('./package.json');
+  const outPkgJsonPath = require.resolve(out("package.json"));
+  const currentPkgJson = require("./package.json");
 
   const pkg = require(outPkgJsonPath);
 
   pkg.scripts = sortKeys({
     ...pkg.scripts,
     ...currentPkgJson.scripts,
-  })
+  });
 
   pkg.dependencies = sortKeys({
     ...pkg.dependencies,
-    ...currentPkgJson.dependencies
-  })
+    ...currentPkgJson.dependencies,
+  });
 
-  fs.writeFileSync(outPkgJsonPath, JSON.stringify(pkg, null, 2), 'utf-8');
+  fs.writeFileSync(outPkgJsonPath, JSON.stringify(pkg, null, 2), "utf-8");
 
   codemod({
-    source: out('pages/_app.ts'),
+    source: out("pages/_app.ts"),
     visitor: {
-      visitProgram(path) {
-        path.value.body.unshift(
-          t.importDeclaration([],t.stringLiteral("@/assets/css/tailwind.out.css")
+      visitProgram(program) {
+        program.value.body.unshift(
+          t.importDeclaration(
+            [],
+            t.stringLiteral("@/assets/css/tailwind.out.css")
           )
         );
 
-        return false
-      }
-    }
-  })
+        return false;
+      },
+    },
+  });
 
-  const gitignorePath = out('.gitignore')
-  let gitignore = fs.readFileSync(gitignorePath, 'utf-8')
+  const gitignorePath = out(".gitignore");
+  let gitignore = fs.readFileSync(gitignorePath, "utf-8");
 
-  gitignore = [gitignore, fs.readFileSync(here(".gitignore"), 'utf-8')].join("\n")
+  gitignore = [gitignore, fs.readFileSync(here(".gitignore"), "utf-8")].join(
+    "\n"
+  );
 
-  fs.writeFileSync(gitignorePath, gitignore, 'utf-8')
-
-}
+  fs.writeFileSync(gitignorePath, gitignore, "utf-8");
+};

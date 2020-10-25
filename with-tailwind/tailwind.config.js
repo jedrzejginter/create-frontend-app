@@ -16,12 +16,7 @@ module.exports = {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
-  purge: [
-    'pages/**/*.ts',
-    'pages/**/*.tsx',
-    'src/**/*.ts',
-    'src/**/*.tsx',
-  ],
+  purge: ["pages/**/*.ts", "pages/**/*.tsx", "src/**/*.ts", "src/**/*.tsx"],
   theme: {
     colors: {
       black: "#000",
