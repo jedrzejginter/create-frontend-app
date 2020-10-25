@@ -9,7 +9,7 @@ runs:
   steps:
     - run: node build/cli.js ${{ inputs.cli-input }}
       shell: bash
-    - run: ./test.sh ${{ input.test-task }}
+    - run: ./test.sh ${{ inputs.test-task }}
       shell: bash
     - run: (cd out && yarn typecheck)
       shell: bash
