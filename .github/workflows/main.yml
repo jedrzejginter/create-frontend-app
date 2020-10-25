@@ -74,15 +74,11 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git diff --quiet && git diff --staged --quiet || \
-            git commit -m "[gh-actions] Push new version of the project" && \
-            echo "::set-output name=should-push::true"
-
-      - if: steps.git-commit.outputs.should-push != 'true'
-        run: echo ${{ steps.git-commit.outputs.should-push }}
+            git commit -m "[gh-actions] Push new version of the project"
 
       # Sync only for "main" branch.
       - name: Sync created project with external repo
-        if: github.ref == 'refs/heads/main' && steps.git-commit.outputs.should-push == 'true'
+        if: github.ref == 'refs/heads/main'
         run: |
           cd create-react-project-app-01
           git push -f
