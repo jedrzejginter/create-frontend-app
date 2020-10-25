@@ -44,7 +44,7 @@ jobs:
       - name: Create basic project
         uses: ./.github/actions/build-and-test-project
         with:
-          cli-input: 'init -o out -n create-react-project-app'
+          cli-input: 'init -d out -n create-react-project-app'
           test-task: basic
 
       - name: Add Tailwind
