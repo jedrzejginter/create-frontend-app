@@ -46,6 +46,7 @@ jobs:
             ${{ runner.os }}-root-node-modules-
 
       - run: yarn --pure-lockfile --ignore-optional
+      - run: yarn lint
       - run: node build/cli.js --out new-project --name create-react-project-app-01 --force
 
       # Run check in output project
