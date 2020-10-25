@@ -54,9 +54,7 @@ jobs:
 
       - run: PROJECT_OUT=new-project PROJECT_NAME=create-react-project-app-01 yarn test --ci
 
-      # Sync only for "main" branch.
       - name: Sync created project with external repo
-        if: github.ref == 'refs/heads/main'
         run: |
           cp -R create-react-project-app-01/.git new-project/.git
           rm -rf create-react-project-app-01
@@ -66,4 +64,10 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "[gh-actions] Push new version of the project"
+
+      # Sync only for "main" branch.
+      - name: Sync created project with external repo
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd create-react-project-app-01
           git push -f

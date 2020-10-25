@@ -9,5 +9,3 @@ pushd ${CDIR}/.. > /dev/null
   yarn
   yarn build:tailwind
 popd > /dev/null
-
-
