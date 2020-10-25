@@ -42,7 +42,6 @@ test("should have correct files structure", () => {
   expect(projectPaths).toContain("public/robots.txt");
   expect(projectPaths).toContain("scripts/lint-package-json.js");
   expect(projectPaths).toContain("scripts/rewrite-package-json.js");
-  expect(projectPaths).toContain("scripts/setup.sh");
   expect(projectPaths).toContain("src/assets/icons/home.svg");
   expect(projectPaths).toContain("src/components/FormError/FormError.tsx");
   expect(projectPaths).toContain("src/components/FormError/index.ts");
