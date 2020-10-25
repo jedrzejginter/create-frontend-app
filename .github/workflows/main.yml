@@ -63,14 +63,6 @@ jobs:
           name: create-react-project-with-tailwind
           cli-flags: '--withTailwind'
 
-      # - run: node build/cli.js --out new-project --name create-react-project-app-01 --force
-
-      # # Run check in output project
-      # - run: (cd new-project && yarn typecheck)
-      # - run: (cd new-project && yarn test --ci)
-
-      # - run: PROJECT_OUT=new-project PROJECT_NAME=create-react-project-app-01 yarn test --ci
-
       - name: Create commit with changes to generated project
         run: |
           cp -R create-react-project-app-01/.git new-project/.git
