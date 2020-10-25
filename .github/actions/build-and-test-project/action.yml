@@ -16,5 +16,5 @@ runs:
       shell: bash
     - run: (cd ${{ inputs.out }} && yarn test --ci)
       shell: bash
-    - run: PROJECT_OUT=new-project PROJECT_NAME=${{ inputs.name }} yarn test --ci
+    - run: PROJECT_OUT=${{ inputs.out }} PROJECT_NAME=${{ inputs.name }} yarn test --ci
       shell: bash
