@@ -11,6 +11,10 @@ runs:
   using: "composite"
   steps:
     - run: node build/cli.js --out ${{ inputs.out }} --name ${{ inputs.name }} ${{ inputs.cli-flags }}
+      shell: bash
     - run: (cd ${{ inputs.out }} && yarn typecheck)
+      shell: bash
     - run: (cd ${{ inputs.out }} && yarn test --ci)
+      shell: bash
     - run: PROJECT_OUT=new-project PROJECT_NAME=${{ inputs.name }} yarn test --ci
+      shell: bash
