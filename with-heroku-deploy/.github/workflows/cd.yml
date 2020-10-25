@@ -6,7 +6,7 @@ jobs:
   deploy-project:
     runs-on: ubuntu-latest
     env:
-      HEROKU_APP: ${{ secrets.HEROKU_APP }}
+      HEROKU_APP: ''
       HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN }}
     steps:
       - name: Checkout code

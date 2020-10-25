@@ -31,15 +31,12 @@ function sortKeys(o) {
 // 6. Add tailwind to dev deps
 module.exports = function withTailwind(options) {
   function out(...segments) {
-    return path.join(process.cwd(), options.out, ...segments);
+    return path.join(process.cwd(), options.dir, ...segments);
   }
 
   const cpMap = [
-    [here("tailwind.config.js"), path.join(options.out, "tailwind.config.js")],
-    [
-      here("src/assets/css/tailwind.css"),
-      path.join(options.out, "src/assets/css/tailwind.css"),
-    ],
+    [here("tailwind.config.js"), out("tailwind.config.js")],
+    [here("src/assets/css/tailwind.css"), out("src/assets/css/tailwind.css")],
   ];
 
   for (const [source, target] of cpMap) {
@@ -91,4 +88,8 @@ module.exports = function withTailwind(options) {
   );
 
   fs.writeFileSync(gitignorePath, gitignore, "utf-8");
+
+  execSync(`(cd ${q(options.dir)} && yarn)`, {
+    stdio: "inherit",
+  });
 };

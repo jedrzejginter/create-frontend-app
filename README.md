@@ -4,10 +4,6 @@
 
   **create-react-project**\
   <img src="https://github.com/jedrzejginter/create-react-project/workflows/main/badge.svg">
-
-  [**create-react-project-app-01**](https://github.com/jedrzejginter/create-react-project-app-01)\
-  <img src="https://github.com/jedrzejginter/create-react-project-app-01/workflows/CI/badge.svg">
-  <img src="https://github.com/jedrzejginter/create-react-project-app-01/workflows/CD/badge.svg">
 </div>
 
 ---
@@ -15,11 +11,19 @@
 ## Usage
 
 ```bash
-> node build/cli.js --out project --name my-project
+> node build/cli.js init -d out -n my-new-app
+```
+
+### Heroku deployment
+
+After you run this step you have to add a **HEROKU_AUTH_TOKEN** secret to your repo.
+
+```.bash
+> node build/cli.js with-heroku-deploy -d out --app my-heroku-app
 ```
 
 ### Tailwind support
 
 ```.bash
-> node build/cli.js --out project --name my-project --withTailwind
+> node build/cli.js with-tailwind -d out
 ```

@@ -2,11 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
 
-const OUT_DIR = process.env.PROJECT_OUT;
-const { PROJECT_NAME } = process.env;
-
 function outPath(...segments) {
-  return path.join(process.cwd(), OUT_DIR, ...segments);
+  return path.join(process.cwd(), "out", ...segments);
 }
 
 function readOutFile(...segments) {
@@ -24,7 +21,6 @@ test("should have correct files structure", () => {
     })
     .map((p) => path.relative(outPath(), p));
 
-  expect(projectPaths).toContain(".github/workflows/cd.yml");
   expect(projectPaths).toContain(".github/workflows/ci.yml");
   expect(projectPaths).toContain(".vscode/settings.json");
   expect(projectPaths).toContain("babel/plugin-resolve-imports.js");
@@ -123,15 +119,6 @@ describe(".gitignore", () => {
 });
 
 describe("package.json", () => {
-  it("should have project name set", () => {
-    expect(pkg.name).toBe(PROJECT_NAME);
-  });
-
-  it("should have husky config set", () => {
-    expect(pkg).not.toHaveProperty("__husky");
-    expect(pkg).toHaveProperty("husky");
-  });
-
   it("should have all packages with exact versions", () => {
     const inexact = [];
     const deps = { ...pkg.dependencies, ...pkg.devDependencies };

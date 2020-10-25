@@ -12,14 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Checkout target repo
-        uses: actions/checkout@v2
-        with:
-          repository: jedrzejginter/create-react-project-app-01
-          path: create-react-project-app-01
-          ref: main
-          token: ${{ secrets.PAT }}
-
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -52,24 +44,39 @@ jobs:
       - name: Create basic project
         uses: ./.github/actions/build-and-test-project
         with:
-          out: new-project
-          name: create-react-project-app-01
-          cli-flags: '--force'
+          cli-input: 'init -d out -n create-react-project-app'
+          test-task: basic
 
-      - name: Create project with Tailwind
+      - name: Add Tailwind
         uses: ./.github/actions/build-and-test-project
         with:
-          out: create-react-project-with-tailwind
-          name: create-react-project-with-tailwind
-          cli-flags: '--withTailwind'
+          cli-input: 'with-tailwind -d out'
+          test-task: with-tailwind
+
+      - name: Add Heroku deployment
+        uses: ./.github/actions/build-and-test-project
+        with:
+          cli-input: 'with-heroku-deploy -d out --app create-react-project-app-01 --deployBranch project'
+          test-task: with-heroku-deploy
+
+      # Try to build project
+      - run: (cd out && yarn build)
+
+      - name: Checkout deploy branch
+        uses: actions/checkout@v2
+        with:
+          ref: project
+          path: project-repo
+          token: ${{ secrets.PAT }}
 
       - name: Create commit with changes to generated project
         id: git-commit
         run: |
-          cp -R create-react-project-app-01/.git new-project/.git
-          rm -rf create-react-project-app-01
-          mv new-project create-react-project-app-01
-          cd create-react-project-app-01
+          cp -R project-repo/.git out/.git
+          rm -rf out/node_modules
+          rm -rf project-repo
+          mv out project-repo
+          cd project-repo
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
@@ -77,8 +84,8 @@ jobs:
             git commit -m "[gh-actions] Push new version of the project"
 
       # Sync only for "main" branch.
-      - name: Sync created project with external repo
-        if: github.ref == 'refs/heads/main'
+      - name: Sync created project with branch
+        # if: github.ref == 'refs/heads/main'
         run: |
-          cd create-react-project-app-01
+          cd project-repo
           git push -f

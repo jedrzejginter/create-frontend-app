@@ -1,20 +1,17 @@
 name: "build and test project"
 inputs:
-  out:
+  test-task:
     required: true
-  name:
+  cli-input:
     required: true
-  cli-flags:
-    required: false
-    default: ''
 runs:
   using: "composite"
   steps:
-    - run: node build/cli.js --out ${{ inputs.out }} --name ${{ inputs.name }} ${{ inputs.cli-flags }}
+    - run: node build/cli.js ${{ inputs.cli-input }}
       shell: bash
-    - run: (cd ${{ inputs.out }} && yarn typecheck)
+    - run: ./test ${{ inputs.test-task }}
       shell: bash
-    - run: (cd ${{ inputs.out }} && yarn test --ci)
+    - run: (cd out && yarn typecheck)
       shell: bash
-    - run: PROJECT_OUT=${{ inputs.out }} PROJECT_NAME=${{ inputs.name }} yarn test --ci
+    - run: (cd out && yarn test --ci)
       shell: bash
