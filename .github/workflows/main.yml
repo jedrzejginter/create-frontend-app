@@ -55,7 +55,7 @@ jobs:
 
       - run: PROJECT_OUT=new-project PROJECT_NAME=create-react-project-app-01 yarn test --ci
 
-      - name: Sync created project with external repo
+      - name: Create commit with changes to generated project
         run: |
           cp -R create-react-project-app-01/.git new-project/.git
           rm -rf create-react-project-app-01
