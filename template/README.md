@@ -6,3 +6,9 @@
 ## Overview
 
 The main technologies used are: **React**, **Next.js** and **Typescript**.
+
+## Setup
+
+```bash
+> ./scripts/setup.sh
+```

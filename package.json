@@ -17,7 +17,10 @@
     "test": "NODE_ENV=test jest"
   },
   "dependencies": {
+    "@babel/parser": "7.12.3",
+    "@babel/types": "7.12.1",
     "cpy": "8.1.1",
+    "recast": "0.20.4",
     "shell-quote": "1.7.2",
     "yargs": "16.1.0"
   },
