@@ -7,7 +7,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: node build/cli.js ${{ inputs.cli-flags }}
+    - run: node build/cli.js ${{ inputs.cli-input }}
       shell: bash
     - run: ./test.sh ${{ input.test-task }}
       shell: bash
